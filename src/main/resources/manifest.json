@@ -19,5 +19,5 @@
     },
     "DisabledByDefault": false,
     "IncludesAssetPack": true,
-    "Main": "io.github.drakonforge.exampleplugin.ExamplePlugin"
+    "Main": "io.github.hytalejams.lastdragon.LastDragon"
 }
