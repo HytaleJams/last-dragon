@@ -4,13 +4,21 @@
     "Version": "1.0.0",
     "Description": "An example plugin for Hytale modding.",
     "Authors": [
-        {
-            "Name": "Drakon",
-            "Url": "https://github.com/Drakonkinst"
-        }
+      {
+        "Name": "Cobrinthine",
+        "Url": "https://github.com/Cobrinthine"
+      },
+      {
+        "Name": "Drakon",
+        "Url": "https://github.com/Drakonkinst"
+      },
+      {
+        "Name": "Vegetal",
+        "Url": "https://github.com/VegetalDev"
+      }
     ],
-    "Website": "https://github.com/DrakonForge",
-    "ServerVersion": "*",
+    "Website": "https://github.com/HytaleJams",
+    "ServerVersion": "0.5.4",
     "Dependencies": {
         
     },
