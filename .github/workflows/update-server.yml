@@ -32,3 +32,13 @@ jobs:
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         run: |
           curl -T ./build/libs/LastDragon-1.0.0.jar ftp://clarion.dathost.net/mods/ --user "$FTP_USER:$FTP_PASSWORD"
+
+      - name: Restart server
+        env:
+          DATHOST_ACCOUNT_EMAIL: ${{ secrets.DATHOST_ACCOUNT_EMAIL }}
+          DATHOST_AUTH: ${{ secrets.DATHOST_AUTH }}
+
+          # FTP_USER is the server i
+          SERVER_ID: ${{ secrets.FTP_USER }}
+        run: |
+          curl --request POST --url https://dathost.com/api/0.1/game-servers/$SERVER_ID/start --header "account-email: $DATHOST_ACCOUNT_EMAIL" --header "authorization: $DATHOST_AUTH" --header 'content-type: multipart/form-data'
