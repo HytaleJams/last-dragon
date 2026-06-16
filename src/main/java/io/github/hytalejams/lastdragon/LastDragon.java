@@ -1,8 +1,10 @@
 package io.github.hytalejams.lastdragon;
 
+import com.hypixel.hytale.builtin.triggervolumes.effect.TriggerEffect;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
+import io.github.hytalejams.lastdragon.trigger.PushCrate;
 
 import javax.annotation.Nonnull;
 
@@ -27,6 +29,8 @@ public class LastDragon extends JavaPlugin {
     protected void setup() {
         instance = this;
         LOGGER.atInfo().log("Setting up plugin " + this.getName() + " version " + this.getManifest().getVersion().toString());
+
+      getCodecRegistry(TriggerEffect.CODEC).register("PushCrate", PushCrate.class, PushCrate.CODEC);
     }
 
     @Override
