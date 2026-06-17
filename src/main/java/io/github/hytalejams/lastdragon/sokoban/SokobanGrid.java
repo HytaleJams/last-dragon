@@ -6,18 +6,27 @@ import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.codec.codecs.EnumCodec;
 import com.hypixel.hytale.codec.codecs.array.ArrayCodec;
 import com.hypixel.hytale.component.Resource;
+import com.hypixel.hytale.logger.HytaleLogger;
+import com.hypixel.hytale.math.vector.Vector3iUtil;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import org.joml.Vector2i;
+import org.joml.Vector3i;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class SokobanGrid implements Resource<ChunkStore> {
+  private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
+
   public static final BuilderCodec<SokobanGrid> CODEC =
       BuilderCodec.builder(SokobanGrid.class, SokobanGrid::new)
           .append(new KeyedCodec<>("Cells", SokobanCell.ARRAY_CODEC), (self, cells) -> {
             for (var cell : cells) self.cells.put(new Vector2i(cell.x, cell.z), cell);
           }, (self) -> self.cells.values().toArray(SokobanCell[]::new))
+          .add()
+          .append(new KeyedCodec<>("Origin", Vector3iUtil.CODEC), (self, origin) -> self.origin = origin, self -> self.origin)
+          .add()
+          .append(new KeyedCodec<>("CellWidth", Codec.INTEGER), (self, cellWidth) -> self.cellWidth = cellWidth, (self) -> self.cellWidth)
           .add()
           .build();
 
@@ -56,20 +65,19 @@ public class SokobanGrid implements Resource<ChunkStore> {
       state = State.Empty;
     }
 
-    public SokobanCell(Vector2i position) {
-      this.x = position.x;
-      this.z = position.y;
-    }
-
-    public Vector2i getPosition() {
-      return new Vector2i(x, z);
+    @Override
+    public String toString() {
+      return "SokobanCell{x=" + x + ", z=" + z + ", state=" + state + "}";
     }
   }
 
-  private Map<Vector2i, SokobanCell> cells;
+  private final Map<Vector2i, SokobanCell> cells;
+  private Vector3i origin;
+  private int cellWidth;
 
   public SokobanGrid() {
     this.cells = new HashMap<>();
+    this.origin = new Vector3i(0, 0, 0);
   }
 
   public enum PushDirection {
@@ -87,12 +95,33 @@ public class SokobanGrid implements Resource<ChunkStore> {
     }
   }
 
+  public Vector3i getOrigin() {
+    return new Vector3i(origin);
+  }
+
+  public int getCellWidth() {
+    return cellWidth;
+  }
+
   public boolean tryMove(Vector2i cell, PushDirection direction) {
+    LOGGER.atInfo().log("Trying to push cell at x=" + cell.x + ", z=" + cell.y + " in direction " + direction);
+
     var sourceCell = cells.get(cell);
-    if (sourceCell == null || sourceCell.state.isEmpty()) return false;
+
+    LOGGER.atInfo().log("Source cell: " + sourceCell);
+
+    if (sourceCell == null || sourceCell.state.isEmpty()) {
+      LOGGER.atInfo().log("Source cell is null or empty, can't push");
+      return false;
+    }
 
     var targetCell = cells.get(new Vector2i(cell.x + direction.x, cell.y + direction.z));
-    if (targetCell == null || !targetCell.state.isEmpty()) return false;
+    LOGGER.atInfo().log("Target cell: " + targetCell);
+
+    if (targetCell == null || !targetCell.state.isEmpty()) {
+      LOGGER.atInfo().log("Target cell is null or empty, can't push");
+      return false;
+    }
 
     sourceCell.state = switch (sourceCell.state) {
       case Crate -> SokobanCell.State.Empty;
@@ -106,6 +135,7 @@ public class SokobanGrid implements Resource<ChunkStore> {
       default -> throw new AssertionError("Unexpected enum variant " + targetCell.state);
     };
 
+    LOGGER.atInfo().log("Successfully pushed crate.");
     return true;
   }
 
