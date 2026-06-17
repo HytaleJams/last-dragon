@@ -83,7 +83,7 @@ public class SokobanGrid implements Resource<ChunkStore> {
   public enum PushDirection {
     North(0, -1),
     East(1, 0),
-    South(1, 0),
+    South(0, 1),
     West(-1, 0);
 
     public final int x;
@@ -140,6 +140,7 @@ public class SokobanGrid implements Resource<ChunkStore> {
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   public Resource<ChunkStore> clone() {
     try {
       return (Resource<ChunkStore>) super.clone();
