@@ -47,9 +47,9 @@ public class SokobanGrid implements Resource<ChunkStore> {
 
     public static final BuilderCodec<SokobanCell> CODEC =
         BuilderCodec.builder(SokobanCell.class, SokobanCell::new)
-            .append(new KeyedCodec<>("x", Codec.INTEGER), (self, value) -> self.x = value, self -> self.x)
+            .append(new KeyedCodec<>("X", Codec.INTEGER), (self, value) -> self.x = value, self -> self.x)
             .add()
-            .append(new KeyedCodec<>("z", Codec.INTEGER), (self, value) -> self.z = value, self -> self.z)
+            .append(new KeyedCodec<>("Z", Codec.INTEGER), (self, value) -> self.z = value, self -> self.z)
             .add()
             .append(new KeyedCodec<>("State", new EnumCodec<>(State.class)), (self, state) -> self.state = state, self -> self.state)
             .add()
