@@ -5,8 +5,10 @@ import com.hypixel.hytale.builtin.triggervolumes.effect.TriggerEffect;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import org.joml.Vector3d;
+import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;
+import java.util.HashMap;
 
 public class PushCrate extends TriggerEffect {
   public static final BuilderCodec<PushCrate> CODEC = BuilderCodec
@@ -29,22 +31,22 @@ public class PushCrate extends TriggerEffect {
 
     volume.getShape().getWorldAABB(volume.getPosition(), min, max);
 
-    boolean foundNonEmpty = false;
+    var blockTypes = new HashMap<Vector3i, String>();
 
-    outer:
-    for (int x = (int) Math.ceil(min.x); x <= (int) Math.floor(max.x); x++) {
-      for (int y = (int) Math.ceil(min.y); y <= (int) Math.floor(max.y); y++) {
-        for (int z = (int) Math.ceil(min.z); z <= (int) Math.floor(max.z); z++) {
+    for (int x = (int) Math.ceil(min.x); x < (int) Math.floor(max.x); x++) {
+      for (int y = (int) Math.ceil(min.y); y < (int) Math.floor(max.y); y++) {
+        for (int z = (int) Math.ceil(min.z); z < (int) Math.floor(max.z); z++) {
           var block = store.getExternalData().getWorld().getBlockType(x, y, z);
           if (block != null && !block.getId().equalsIgnoreCase("Empty")) {
-            foundNonEmpty = true;
-            break outer;
+            blockTypes.put(new Vector3i(x, y, z), block.getId());
           }
         }
       }
     }
 
     // we didn't find any solid blocks, there's nothing to push: return
-    if (!foundNonEmpty) return;
+    if (blockTypes.isEmpty()) return;
+
+
   }
 }
