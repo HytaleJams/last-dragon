@@ -43,8 +43,8 @@ public class PushCrate extends TriggerEffect {
 
     var relative = center.sub(sokobanGrid.getOrigin());
 
-    var gridX = relative.x / sokobanGrid.getCellWidth();
-    var gridZ = relative.z / sokobanGrid.getCellWidth();
+    var gridX = (int)Math.ceil((double)relative.x / sokobanGrid.getCellWidth());
+    var gridZ = (int)Math.ceil((double)relative.z / sokobanGrid.getCellWidth());
 
     var xMag = Math.abs(playerDistanceFromExactCenter.x);
     var zMag = Math.abs(playerDistanceFromExactCenter.z);
