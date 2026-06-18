@@ -3,7 +3,7 @@ package io.github.hytalejams.lastdragon.trigger;
 import com.hypixel.hytale.builtin.triggervolumes.effect.TriggerContext;
 import com.hypixel.hytale.builtin.triggervolumes.effect.TriggerEffect;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
-import com.hypixel.hytale.math.vector.Vector3dUtil;
+import com.hypixel.hytale.math.vector.Vector3iUtil;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import io.github.hytalejams.lastdragon.LastDragon;
 import io.github.hytalejams.lastdragon.sokoban.SokobanGrid;
@@ -33,7 +33,6 @@ public class PushCrate extends TriggerEffect {
     volume.getShape().getWorldAABB(volume.getPosition(), min, max);
 
     var exactCenter = new Vector3d(min).add(max).div(2);
-    var center = Vector3dUtil.toVector3i(exactCenter);
 
     var playerDistanceFromExactCenter = new Vector3d();
     transform.getPosition().sub(exactCenter, playerDistanceFromExactCenter);
@@ -41,10 +40,10 @@ public class PushCrate extends TriggerEffect {
     var sokobanGrid = store.getExternalData().getWorld().getChunkStore()
         .getStore().getResource(LastDragon.getInstance().getSokobanGridResourceType());
 
-    var relative = center.sub(sokobanGrid.getOrigin());
+    var relative = exactCenter.sub(Vector3iUtil.toVector3d(sokobanGrid.getOrigin()));
 
-    var gridX = (int)Math.ceil((double)relative.x / sokobanGrid.getCellWidth());
-    var gridZ = (int)Math.ceil((double)relative.z / sokobanGrid.getCellWidth());
+    var gridX = ((int)Math.floor(relative.x)) / sokobanGrid.getCellWidth();
+    var gridZ = ((int)Math.floor(relative.z)) / sokobanGrid.getCellWidth();
 
     var xMag = Math.abs(playerDistanceFromExactCenter.x);
     var zMag = Math.abs(playerDistanceFromExactCenter.z);

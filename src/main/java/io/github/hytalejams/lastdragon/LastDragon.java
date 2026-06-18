@@ -33,10 +33,14 @@ public class LastDragon extends JavaPlugin {
     @Override
     protected void setup() {
         instance = this;
-        LOGGER.atInfo().log("Setting up plugin " + this.getName() + " version " + this.getManifest().getVersion().toString());
+        LOGGER.atInfo().log("Setting up plugin " + this.getName() + " version " +
+            this.getManifest().getVersion().toString());
 
-      getCodecRegistry(TriggerEffect.CODEC).register("PushCrate", PushCrate.class, PushCrate.CODEC);
-      sokobanGridResourceType = getChunkStoreRegistry().registerResource(SokobanGrid.class, "SokobanGrid", SokobanGrid.CODEC);
+      getCodecRegistry(TriggerEffect.CODEC)
+          .register("PushCrate", PushCrate.class, PushCrate.CODEC);
+
+      sokobanGridResourceType = getChunkStoreRegistry()
+          .registerResource(SokobanGrid.class, "SokobanGrid", SokobanGrid.CODEC);
     }
 
     @Override
