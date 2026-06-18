@@ -1,2 +1,2 @@
-Reset_Sokoban.name = Reset Board
-Reset_Sokoban.description = Resets the entire Sokoban board.
+Sokoban_Reset.name = Reset Board
+Sokoban_Reset.description = Resets the entire Sokoban board.
