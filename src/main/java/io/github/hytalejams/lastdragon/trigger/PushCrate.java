@@ -52,7 +52,11 @@ public class PushCrate extends TriggerEffect {
     var gridZ = ((int)Math.floor(relative.z)) / sokobanGrid.getCellWidth();
 
     var xMag = Math.abs(playerDistanceFromExactCenter.x);
+    var yMag = Math.abs(playerDistanceFromExactCenter.y);
     var zMag = Math.abs(playerDistanceFromExactCenter.z);
+
+    // avoid people moving the crates from above
+    if (Math.abs(transform.getPosition().y - min.y) > 0.4) return;
 
     // check if the player is too close to the corner
     if (Math.abs(xMag - zMag) < 0.25) return;
