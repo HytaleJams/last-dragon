@@ -1,17 +1,13 @@
 package io.github.hytalejams.lastdragon;
 
 import com.hypixel.hytale.builtin.triggervolumes.effect.TriggerEffect;
-import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.ResourceType;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
-import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import io.github.hytalejams.lastdragon.sokoban.InSokobanArea;
 import io.github.hytalejams.lastdragon.trigger.ResetSokoban;
 import io.github.hytalejams.lastdragon.sokoban.SokobanGrid;
-import io.github.hytalejams.lastdragon.system.ItemDropSystem;
 import io.github.hytalejams.lastdragon.trigger.PushCrate;
 import io.github.hytalejams.lastdragon.trigger.SetCamera;
 
@@ -27,7 +23,6 @@ public class LastDragon extends JavaPlugin {
     private static LastDragon instance;
 
     private ResourceType<ChunkStore, SokobanGrid> sokobanGridResourceType;
-    private ComponentType<EntityStore, InSokobanArea> inSokobanAreaComponentType;
 
     private final SokobanGrid initialGrid;
 
@@ -79,11 +74,6 @@ public class LastDragon extends JavaPlugin {
 
       sokobanGridResourceType = getChunkStoreRegistry()
           .registerResource(SokobanGrid.class, "SokobanGrid", SokobanGrid.CODEC);
-
-      inSokobanAreaComponentType = getEntityStoreRegistry()
-          .registerComponent(InSokobanArea.class, InSokobanArea::new);
-
-      getEntityStoreRegistry().registerSystem(new ItemDropSystem());
     }
 
     @Override
@@ -93,10 +83,6 @@ public class LastDragon extends JavaPlugin {
 
     public ResourceType<ChunkStore, SokobanGrid> getSokobanGridResourceType() {
       return sokobanGridResourceType;
-    }
-
-    public ComponentType<EntityStore, InSokobanArea> getInSokobanAreaComponentType() {
-      return inSokobanAreaComponentType;
     }
 
     public SokobanGrid getDefaultGrid() {

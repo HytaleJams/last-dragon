@@ -24,10 +24,6 @@ public class ResetSokoban extends TriggerEffect {
   @Override
   public void execute(@Nonnull TriggerContext triggerContext) {
     var world = triggerContext.getEntityRef().getStore().getExternalData().getWorld();
-    var entity = triggerContext.getEntityRef();
-
-    if (entity.getStore()
-        .getComponent(entity, LastDragon.getInstance().getInSokobanAreaComponentType()) == null) return;
 
     var defaultSokoban = LastDragon.getInstance().getDefaultGrid();
     world.getChunkStore()
