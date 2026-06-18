@@ -147,8 +147,7 @@ public class SokobanGrid implements Resource<ChunkStore> {
       var setType = cell.state.isEmpty() ? "Empty" : crateBlock;
 
       for (int x = startX; x < endX; x++)
-        // TODO: set origin y in config: correct value is 186 unless the map moves
-        for (int y = origin.y; y < cellWidth; y++)
+        for (int y = origin.y; y < origin.y + cellWidth; y++)
           for (int z = startZ; z < endZ; z++)
             world.setBlock(x, y, z, setType);
     }
