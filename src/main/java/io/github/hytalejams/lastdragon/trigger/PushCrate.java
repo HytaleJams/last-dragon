@@ -2,6 +2,9 @@ package io.github.hytalejams.lastdragon.trigger;
 
 import com.hypixel.hytale.builtin.triggervolumes.effect.TriggerContext;
 import com.hypixel.hytale.builtin.triggervolumes.effect.TriggerEffect;
+import com.hypixel.hytale.builtin.triggervolumes.effect.builtin.ModifyTagsEffect;
+import com.hypixel.hytale.codec.Codec;
+import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.math.vector.Vector3iUtil;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
@@ -14,9 +17,15 @@ import javax.annotation.Nonnull;
 
 public class PushCrate extends TriggerEffect {
   public static final BuilderCodec<PushCrate> CODEC = BuilderCodec
-      .builder(PushCrate.class, PushCrate::new, TriggerEffect.BASE_CODEC).build();
+      .builder(PushCrate.class, PushCrate::new, TriggerEffect.BASE_CODEC)
+      .append(new KeyedCodec<>("NotifyId", Codec.STRING), (self, value) -> self.notifyId = value, self -> self.notifyId).add()
+      .append(new KeyedCodec<>("ModifyEffect", ModifyTagsEffect.CODEC), (self, value) -> self.effect = value, self -> self.effect).add()
+      .build();
 
-  public PushCrate() {}
+  private String notifyId;
+  private ModifyTagsEffect effect;
+
+  public PushCrate() { }
 
   @Override
   public void execute(@Nonnull TriggerContext triggerContext) {
@@ -78,8 +87,6 @@ public class PushCrate extends TriggerEffect {
       }
     }
 
-    if (sokobanGrid.isWinCondition()) {
-      // TODO: win condition handling
-    }
+    if (sokobanGrid.isWinCondition()) effect.execute(triggerContext);
   }
 }
