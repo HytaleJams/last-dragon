@@ -16,6 +16,7 @@ public class CameraUtils {
     ServerCameraSettings settings = new ServerCameraSettings();
     settings.positionLerpSpeed = 0.1f;
     settings.rotationLerpSpeed = 0.1f;
+    settings.movementMultiplier = new Vector3f(1, 0, 1);
     settings.distance = 25.0f;
     settings.displayCursor = true;
     settings.isFirstPerson = false;
