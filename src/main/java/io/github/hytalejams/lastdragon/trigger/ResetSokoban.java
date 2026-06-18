@@ -1,20 +1,28 @@
-package io.github.hytalejams.lastdragon.sokoban;
+package io.github.hytalejams.lastdragon.trigger;
 
 import com.hypixel.hytale.builtin.triggervolumes.effect.TriggerContext;
 import com.hypixel.hytale.builtin.triggervolumes.effect.TriggerEffect;
+import com.hypixel.hytale.codec.Codec;
+import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
-import com.hypixel.hytale.math.vector.Rotation3f;
-import com.hypixel.hytale.server.core.modules.entity.teleport.Teleport;
 import io.github.hytalejams.lastdragon.LastDragon;
-import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
-import org.joml.Vector3d;
+
+import javax.annotation.Nonnull;
 
 public class ResetSokoban extends TriggerEffect {
   public static final BuilderCodec<ResetSokoban> CODEC = BuilderCodec
-      .builder(ResetSokoban.class, ResetSokoban::new).build();
+      .builder(ResetSokoban.class, ResetSokoban::new)
+      .append(new KeyedCodec<>("CrateBlockId", Codec.STRING, false), (self, value) -> self.crateBlockId = value, self -> self.crateBlockId).add()
+      .build();
+
+  public String crateBlockId;
+
+  public ResetSokoban() {
+    this.crateBlockId = "Furniture_Village_Crate";
+  }
 
   @Override
-  public void execute(@NonNullDecl TriggerContext triggerContext) {
+  public void execute(@Nonnull TriggerContext triggerContext) {
     var world = triggerContext.getEntityRef().getStore().getExternalData().getWorld();
     var entity = triggerContext.getEntityRef();
 
@@ -25,10 +33,6 @@ public class ResetSokoban extends TriggerEffect {
     world.getChunkStore()
         .getStore().replaceResource(LastDragon.getInstance().getSokobanGridResourceType(), defaultSokoban);
 
-    defaultSokoban.syncWorldState(world, "FurnitureVillageCrate");
-
-    entity.getStore().addComponent(entity, Teleport.getComponentType(),
-        new Teleport(new Vector3d(-1794, 186.5, -373),
-            new Rotation3f(0F, (float) Math.PI, 0F)));
+    defaultSokoban.syncWorldState(world, crateBlockId);
   }
 }

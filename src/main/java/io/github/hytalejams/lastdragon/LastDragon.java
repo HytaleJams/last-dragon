@@ -9,11 +9,9 @@ import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import io.github.hytalejams.lastdragon.sokoban.InSokobanArea;
-import io.github.hytalejams.lastdragon.sokoban.ResetSokoban;
+import io.github.hytalejams.lastdragon.trigger.ResetSokoban;
 import io.github.hytalejams.lastdragon.sokoban.SokobanGrid;
 import io.github.hytalejams.lastdragon.system.ItemDropSystem;
-import io.github.hytalejams.lastdragon.trigger.EnterSokobanArea;
-import io.github.hytalejams.lastdragon.trigger.LeaveSokobanArea;
 import io.github.hytalejams.lastdragon.trigger.PushCrate;
 import io.github.hytalejams.lastdragon.trigger.SetCamera;
 
@@ -75,8 +73,6 @@ public class LastDragon extends JavaPlugin {
             this.getManifest().getVersion().toString());
 
       getCodecRegistry(TriggerEffect.CODEC)
-          .register("EnterSokoban", EnterSokobanArea.class, EnterSokobanArea.CODEC)
-          .register("LeaveSokoban", LeaveSokobanArea.class, LeaveSokobanArea.CODEC)
           .register("ResetSokoban", ResetSokoban.class, ResetSokoban.CODEC)
           .register("SetCamera", SetCamera.class, SetCamera.CODEC)
           .register("PushCrate", PushCrate.class, PushCrate.CODEC);
