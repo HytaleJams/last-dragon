@@ -71,6 +71,12 @@ public class SokobanGrid implements Resource<ChunkStore> {
       this.z = z;
     }
 
+    private SokobanCell(SokobanCell that) {
+      this.x = that.x;
+      this.z = that.z;
+      this.state = that.state;
+    }
+
     @Override
     public String toString() {
       return "SokobanCell{x=" + x + ", z=" + z + ", state=" + state + "}";
@@ -84,6 +90,15 @@ public class SokobanGrid implements Resource<ChunkStore> {
   public SokobanGrid() {
     this.cells = new HashMap<>();
     this.origin = new Vector3i(0, 0, 0);
+  }
+
+  private SokobanGrid(SokobanGrid that) {
+    this.cells = new HashMap<>(that.cells.size());
+    this.origin = new Vector3i(that.origin);
+    this.cellWidth = that.cellWidth;
+
+    for (var entry : that.cells.entrySet())
+      this.cells.put(new Vector2i(entry.getKey()), new SokobanCell(entry.getValue()));
   }
 
   public enum PushDirection {
@@ -182,11 +197,8 @@ public class SokobanGrid implements Resource<ChunkStore> {
   }
 
   @Override
+  @SuppressWarnings("MethodDoesntCallSuperMethod")
   public SokobanGrid clone() {
-    try {
-      return (SokobanGrid) super.clone();
-    } catch (CloneNotSupportedException e) {
-      throw new RuntimeException(e);
-    }
+    return new SokobanGrid(this);
   }
 }
