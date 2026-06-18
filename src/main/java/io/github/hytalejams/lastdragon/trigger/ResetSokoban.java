@@ -11,7 +11,7 @@ import javax.annotation.Nonnull;
 
 public class ResetSokoban extends TriggerEffect {
   public static final BuilderCodec<ResetSokoban> CODEC = BuilderCodec
-      .builder(ResetSokoban.class, ResetSokoban::new)
+      .builder(ResetSokoban.class, ResetSokoban::new, TriggerEffect.BASE_CODEC)
       .append(new KeyedCodec<>("CrateBlockId", Codec.STRING, false), (self, value) -> self.crateBlockId = value, self -> self.crateBlockId).add()
       .build();
 
