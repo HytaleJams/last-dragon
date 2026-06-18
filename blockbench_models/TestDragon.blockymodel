@@ -2246,8 +2246,8 @@
                                         "angle": 0
                                       },
                                       "front": {
-                                        "offset": {"x": 139, "y": 121},
-                                        "mirror": {"x": false, "y": false},
+                                        "offset": {"x": 169, "y": 5},
+                                        "mirror": {"x": true, "y": false},
                                         "angle": 0
                                       },
                                       "left": {
