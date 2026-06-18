@@ -25,12 +25,10 @@ public class EnterSokobanArea extends TriggerEffect {
     store.ensureComponent(triggerContext.getEntityRef(), LastDragon.getInstance().getInSokobanAreaComponentType());
 
     var playerRef = store.getComponent(triggerContext.getEntityRef(), PlayerRef.getComponentType());
+    if (playerRef != null) CameraUtils.setSokobanCameraPosition(playerRef);
+
     var hotbar = store.getComponent(triggerContext.getEntityRef(), InventoryComponent.Hotbar.getComponentType());
-
-    if (playerRef == null || hotbar == null) return;
-
-    CameraUtils.setSokobanCameraPosition(playerRef);
-
-    hotbar.getInventory().setItemStackForSlot((short) 4, new ItemStack("Sokoban_Reset", 1));
+    if (hotbar != null) hotbar.getInventory()
+        .setItemStackForSlot((short) 4, new ItemStack("Sokoban_Reset", 1));
   }
 }

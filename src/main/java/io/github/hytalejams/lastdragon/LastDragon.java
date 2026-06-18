@@ -98,7 +98,7 @@ public class LastDragon extends JavaPlugin {
     }
 
     public ComponentType<EntityStore, InSokobanArea> getInSokobanAreaComponentType() {
-
+      return inSokobanAreaComponentType;
     }
 
     public SokobanGrid getDefaultGrid() {

@@ -139,6 +139,12 @@ public class SokobanGrid implements Resource<ChunkStore> {
     }
   }
 
+  public boolean isWinCondition() {
+    for (var cell : cells.values())
+      if (cell.state == SokobanCell.State.GoalEmpty) return false;
+    return true;
+  }
+
   public boolean tryMove(Vector2i cell, PushDirection direction) {
     LOGGER.atInfo().log("Trying to push cell at x=" + cell.x + ", z=" + cell.y + " in direction " + direction);
 
