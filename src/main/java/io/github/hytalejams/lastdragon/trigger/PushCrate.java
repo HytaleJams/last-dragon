@@ -3,7 +3,6 @@ package io.github.hytalejams.lastdragon.trigger;
 import com.hypixel.hytale.builtin.triggervolumes.effect.TriggerContext;
 import com.hypixel.hytale.builtin.triggervolumes.effect.TriggerEffect;
 import com.hypixel.hytale.builtin.triggervolumes.effect.builtin.ModifyTagsEffect;
-import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.math.vector.Vector3iUtil;
@@ -18,7 +17,6 @@ import javax.annotation.Nonnull;
 public class PushCrate extends TriggerEffect {
   public static final BuilderCodec<PushCrate> CODEC = BuilderCodec
       .builder(PushCrate.class, PushCrate::new, TriggerEffect.BASE_CODEC)
-      .append(new KeyedCodec<>("NotifyId", Codec.STRING), (self, value) -> self.notifyId = value, self -> self.notifyId).add()
       .append(new KeyedCodec<>("ModifyEffect", ModifyTagsEffect.CODEC), (self, value) -> self.effect = value, self -> self.effect).add()
       .build();
 
