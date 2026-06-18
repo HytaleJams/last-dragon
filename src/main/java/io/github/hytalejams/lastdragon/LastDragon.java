@@ -56,7 +56,7 @@ public class LastDragon extends JavaPlugin {
           addCell(new SokobanCell(4, 3) {{ state = State.Empty; }});
           addCell(new SokobanCell(4, 4) {{ state = State.Empty; }});
 
-          setOrigin(-1795, 186, -369);
+          setOrigin(-1796, 186, -370);
           setCellWidth(2);
         }};
     }
