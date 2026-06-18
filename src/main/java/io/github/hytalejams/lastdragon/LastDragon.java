@@ -4,12 +4,10 @@ import com.hypixel.hytale.builtin.triggervolumes.effect.TriggerEffect;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.ResourceType;
 import com.hypixel.hytale.logger.HytaleLogger;
-import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Interaction;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import io.github.hytalejams.lastdragon.interaction.SokobanResetInteraction;
 import io.github.hytalejams.lastdragon.sokoban.InSokobanArea;
 import io.github.hytalejams.lastdragon.sokoban.ResetSokoban;
 import io.github.hytalejams.lastdragon.sokoban.SokobanGrid;
@@ -17,6 +15,7 @@ import io.github.hytalejams.lastdragon.system.ItemDropSystem;
 import io.github.hytalejams.lastdragon.trigger.EnterSokobanArea;
 import io.github.hytalejams.lastdragon.trigger.LeaveSokobanArea;
 import io.github.hytalejams.lastdragon.trigger.PushCrate;
+import io.github.hytalejams.lastdragon.trigger.SetCamera;
 
 import javax.annotation.Nonnull;
 
@@ -79,10 +78,8 @@ public class LastDragon extends JavaPlugin {
           .register("EnterSokoban", EnterSokobanArea.class, EnterSokobanArea.CODEC)
           .register("LeaveSokoban", LeaveSokobanArea.class, LeaveSokobanArea.CODEC)
           .register("ResetSokoban", ResetSokoban.class, ResetSokoban.CODEC)
+          .register("SetCamera", SetCamera.class, SetCamera.CODEC)
           .register("PushCrate", PushCrate.class, PushCrate.CODEC);
-
-      getCodecRegistry(Interaction.CODEC)
-          .register("SokobanReset", SokobanResetInteraction.class, SokobanResetInteraction.CODEC);
 
       sokobanGridResourceType = getChunkStoreRegistry()
           .registerResource(SokobanGrid.class, "SokobanGrid", SokobanGrid.CODEC);
