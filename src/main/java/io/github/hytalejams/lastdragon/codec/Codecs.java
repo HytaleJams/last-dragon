@@ -54,7 +54,6 @@ public final class Codecs {
               (self, value) -> self.movementMultiplier = value,
               self -> self.movementMultiplier == null ? null : new Vector3f(self.movementMultiplier.x(), self.movementMultiplier.y(), self.movementMultiplier.z())).add()
           .append(new KeyedCodec<>("ApplyLookType", new EnumCodec<>(ApplyLookType.class), false), (self, value) -> self.applyLookType = value, self -> self.applyLookType).add()
-          .append(new KeyedCodec<>("ApplyLookType", new EnumCodec<>(ApplyLookType.class), false), (self, value) -> self.applyLookType = value, self -> self.applyLookType).add()
           .append(new KeyedCodec<>("LookMultiplier", Vector2fUtil.CODEC, false),
               (self, value) -> self.lookMultiplier = value,
               self -> self.lookMultiplier == null ? null : new Vector2f(self.lookMultiplier.x(), self.lookMultiplier.y())).add()
