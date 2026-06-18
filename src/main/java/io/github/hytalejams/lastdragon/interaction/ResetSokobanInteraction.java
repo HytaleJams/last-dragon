@@ -26,6 +26,9 @@ public class ResetSokobanInteraction extends SimpleInstantInteraction {
     var entity = interactionContext.getEntity();
 
     world.execute(() -> {
+      if (entity.getStore()
+          .getComponent(entity, LastDragon.getInstance().getInSokobanAreaComponentType()) == null) return;
+
       var defaultSokoban = LastDragon.getInstance().getDefaultGrid();
       world.getChunkStore()
           .getStore().replaceResource(LastDragon.getInstance().getSokobanGridResourceType(), defaultSokoban);
