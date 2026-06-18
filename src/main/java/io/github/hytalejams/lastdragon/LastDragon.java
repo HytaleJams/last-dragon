@@ -3,10 +3,14 @@ package io.github.hytalejams.lastdragon;
 import com.hypixel.hytale.builtin.triggervolumes.effect.TriggerEffect;
 import com.hypixel.hytale.component.ResourceType;
 import com.hypixel.hytale.logger.HytaleLogger;
+import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Interaction;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
+import io.github.hytalejams.lastdragon.interaction.ResetSokobanInteraction;
 import io.github.hytalejams.lastdragon.sokoban.SokobanGrid;
+import io.github.hytalejams.lastdragon.trigger.EnterSokobanArea;
+import io.github.hytalejams.lastdragon.trigger.LeaveSokobanArea;
 import io.github.hytalejams.lastdragon.trigger.PushCrate;
 
 import javax.annotation.Nonnull;
@@ -22,12 +26,41 @@ public class LastDragon extends JavaPlugin {
 
     private ResourceType<ChunkStore, SokobanGrid> sokobanGridResourceType;
 
+    private final SokobanGrid initialGrid;
+
     public static LastDragon getInstance() {
         return instance;
     }
 
     public LastDragon(@Nonnull JavaPluginInit init) {
         super(init);
+
+        this.initialGrid = new SokobanGrid() {{
+          addCell(new SokobanCell(0, 0) {{ state = State.GoalEmpty; }});
+          addCell(new SokobanCell(0, 1) {{ state = State.Empty; }});
+          addCell(new SokobanCell(0, 2) {{ state = State.Empty; }});
+          addCell(new SokobanCell(0, 3) {{ state = State.Empty; }});
+          addCell(new SokobanCell(0, 4) {{ state = State.GoalEmpty; }});
+          addCell(new SokobanCell(1, 1) {{ state = State.GoalEmpty; }});
+          addCell(new SokobanCell(1, 3) {{ state = State.Empty; }});
+          addCell(new SokobanCell(1, 4) {{ state = State.Empty; }});
+          addCell(new SokobanCell(2, 1) {{ state = State.Crate; }});
+          addCell(new SokobanCell(2, 2) {{ state = State.Crate; }});
+          addCell(new SokobanCell(2, 3) {{ state = State.Empty; }});
+          addCell(new SokobanCell(2, 4) {{ state = State.Empty; }});
+          addCell(new SokobanCell(3, 0) {{ state = State.Empty; }});
+          addCell(new SokobanCell(3, 1) {{ state = State.Crate; }});
+          addCell(new SokobanCell(3, 2) {{ state = State.Empty; }});
+          addCell(new SokobanCell(3, 4) {{ state = State.Empty; }});
+          addCell(new SokobanCell(4, 0) {{ state = State.Empty; }});
+          addCell(new SokobanCell(4, 1) {{ state = State.Empty; }});
+          addCell(new SokobanCell(4, 2) {{ state = State.Empty; }});
+          addCell(new SokobanCell(4, 3) {{ state = State.Empty; }});
+          addCell(new SokobanCell(4, 4) {{ state = State.Empty; }});
+
+          setOrigin(-1795, 0, -369);
+          setCellWidth(2);
+        }};
     }
 
     @Override
@@ -37,7 +70,12 @@ public class LastDragon extends JavaPlugin {
             this.getManifest().getVersion().toString());
 
       getCodecRegistry(TriggerEffect.CODEC)
+          .register("EnterSokoban", EnterSokobanArea.class, EnterSokobanArea.CODEC)
+          .register("LeaveSokoban", LeaveSokobanArea.class, LeaveSokobanArea.CODEC)
           .register("PushCrate", PushCrate.class, PushCrate.CODEC);
+
+      getCodecRegistry(Interaction.CODEC)
+          .register("ResetSokoban", ResetSokobanInteraction.class, ResetSokobanInteraction.CODEC);
 
       sokobanGridResourceType = getChunkStoreRegistry()
           .registerResource(SokobanGrid.class, "SokobanGrid", SokobanGrid.CODEC);
@@ -50,5 +88,9 @@ public class LastDragon extends JavaPlugin {
 
     public ResourceType<ChunkStore, SokobanGrid> getSokobanGridResourceType() {
       return sokobanGridResourceType;
+    }
+
+    public SokobanGrid getDefaultGrid() {
+      return initialGrid.clone();
     }
 }

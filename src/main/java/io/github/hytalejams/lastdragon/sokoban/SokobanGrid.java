@@ -8,6 +8,7 @@ import com.hypixel.hytale.codec.codecs.array.ArrayCodec;
 import com.hypixel.hytale.component.Resource;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Vector3iUtil;
+import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import org.joml.Vector2i;
 import org.joml.Vector3i;
@@ -65,6 +66,11 @@ public class SokobanGrid implements Resource<ChunkStore> {
       state = State.Empty;
     }
 
+    public SokobanCell(int x, int z) {
+      this.x = x;
+      this.z = z;
+    }
+
     @Override
     public String toString() {
       return "SokobanCell{x=" + x + ", z=" + z + ", state=" + state + "}";
@@ -95,12 +101,42 @@ public class SokobanGrid implements Resource<ChunkStore> {
     }
   }
 
+  public void addCell(SokobanCell cell) {
+    cells.put(new Vector2i(cell.x, cell.z), cell);
+  }
+
+  public void setOrigin(int x, int y, int z) {
+    origin.set(x, y, z);
+  }
+
+  public void setCellWidth(int width) {
+    cellWidth = width;
+  }
+
   public Vector3i getOrigin() {
     return new Vector3i(origin);
   }
 
   public int getCellWidth() {
     return cellWidth;
+  }
+
+  public void syncWorldState(World world, String crateBlock) {
+    for (var cell : cells.values()) {
+      var startX = origin.x + (cell.x * cellWidth);
+      var startZ = origin.z + (cell.z * cellWidth);
+
+      var endX = startX + cellWidth;
+      var endZ = startZ + cellWidth;
+
+      var setType = cell.state.isEmpty() ? "Empty" : crateBlock;
+
+      for (int x = startX; x < endX; x++)
+        // TODO: set origin y in config: correct value is 186 unless the map moves
+        for (int y = origin.y; y < cellWidth; y++)
+          for (int z = startZ; z < endZ; z++)
+            world.setBlock(x, y, z, setType);
+    }
   }
 
   public boolean tryMove(Vector2i cell, PushDirection direction) {
@@ -140,10 +176,9 @@ public class SokobanGrid implements Resource<ChunkStore> {
   }
 
   @Override
-  @SuppressWarnings("unchecked")
-  public Resource<ChunkStore> clone() {
+  public SokobanGrid clone() {
     try {
-      return (Resource<ChunkStore>) super.clone();
+      return (SokobanGrid) super.clone();
     } catch (CloneNotSupportedException e) {
       throw new RuntimeException(e);
     }
