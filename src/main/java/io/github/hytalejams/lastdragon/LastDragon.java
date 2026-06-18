@@ -9,7 +9,7 @@ import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import io.github.hytalejams.lastdragon.interaction.ResetSokobanInteraction;
+import io.github.hytalejams.lastdragon.interaction.SokobanResetInteraction;
 import io.github.hytalejams.lastdragon.sokoban.InSokobanArea;
 import io.github.hytalejams.lastdragon.sokoban.SokobanGrid;
 import io.github.hytalejams.lastdragon.system.ItemDropSystem;
@@ -80,7 +80,7 @@ public class LastDragon extends JavaPlugin {
           .register("PushCrate", PushCrate.class, PushCrate.CODEC);
 
       getCodecRegistry(Interaction.CODEC)
-          .register("ResetSokoban", ResetSokobanInteraction.class, ResetSokobanInteraction.CODEC);
+          .register("SokobanReset", SokobanResetInteraction.class, SokobanResetInteraction.CODEC);
 
       sokobanGridResourceType = getChunkStoreRegistry()
           .registerResource(SokobanGrid.class, "SokobanGrid", SokobanGrid.CODEC);

@@ -12,11 +12,11 @@ import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
 
-public class ResetSokobanInteraction extends SimpleInstantInteraction {
-  public static final BuilderCodec<ResetSokobanInteraction> CODEC = BuilderCodec
-      .builder(ResetSokobanInteraction.class, ResetSokobanInteraction::new).build();
+public class SokobanResetInteraction extends SimpleInstantInteraction {
+  public static final BuilderCodec<SokobanResetInteraction> CODEC = BuilderCodec
+      .builder(SokobanResetInteraction.class, SokobanResetInteraction::new).build();
 
-  public ResetSokobanInteraction() {}
+  public SokobanResetInteraction() {}
 
   @Override
   protected void firstRun(@Nonnull InteractionType interactionType,
