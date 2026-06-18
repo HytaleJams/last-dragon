@@ -77,5 +77,9 @@ public class PushCrate extends TriggerEffect {
         }
       }
     }
+
+    if (sokobanGrid.isWinCondition()) {
+      // TODO: win condition handling
+    }
   }
 }

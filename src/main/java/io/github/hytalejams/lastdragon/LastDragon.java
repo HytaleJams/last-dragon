@@ -12,6 +12,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import io.github.hytalejams.lastdragon.interaction.ResetSokobanInteraction;
 import io.github.hytalejams.lastdragon.sokoban.InSokobanArea;
 import io.github.hytalejams.lastdragon.sokoban.SokobanGrid;
+import io.github.hytalejams.lastdragon.system.ItemDropSystem;
 import io.github.hytalejams.lastdragon.trigger.EnterSokobanArea;
 import io.github.hytalejams.lastdragon.trigger.LeaveSokobanArea;
 import io.github.hytalejams.lastdragon.trigger.PushCrate;
@@ -86,6 +87,8 @@ public class LastDragon extends JavaPlugin {
 
       inSokobanAreaComponentType = getEntityStoreRegistry()
           .registerComponent(InSokobanArea.class, InSokobanArea::new);
+
+      getEntityStoreRegistry().registerSystem(new ItemDropSystem());
     }
 
     @Override
