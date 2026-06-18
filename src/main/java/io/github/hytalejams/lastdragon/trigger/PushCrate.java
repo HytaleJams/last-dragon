@@ -56,7 +56,7 @@ public class PushCrate extends TriggerEffect {
     var zMag = Math.abs(playerDistanceFromExactCenter.z);
 
     // avoid people moving the crates from above
-    if (Math.abs(transform.getPosition().y - min.y) > 0.4) return;
+    if (Math.abs(transform.getPosition().y - min.y) > 0.2) return;
 
     // check if the player is too close to the corner
     if (Math.abs(xMag - zMag) < 0.25) return;
