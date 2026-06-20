@@ -79,6 +79,8 @@ public class PushCrate extends TriggerEffect {
     // only move the physical blocks if the push is valid
     if (!sokobanGrid.tryMove(new Vector2i(gridX, gridZ), pushDirection)) return;
 
+    boolean wasAnyPushed = false;
+    Vector3d pushPos = new Vector3d();
     var world = store.getExternalData().getWorld();
     for (int x = (int) Math.ceil(min.x); x < (int) Math.floor(max.x); x++) {
       for (int y = (int) Math.ceil(min.y); y < (int) Math.floor(max.y); y++) {
@@ -90,16 +92,17 @@ public class PushCrate extends TriggerEffect {
               y,
               z + (pushDirection.z * sokobanGrid.getCellWidth()), oldBlockType.getId());
           world.setBlock(x, y, z, "Empty");
-
-          int soundIndex = SoundEvent.getAssetMap().getIndex(PUSH_CRATE_SFX);
-          int finalX = x;
-          int finalY = y;
-          int finalZ = z;
-          world.execute(() -> {
-            SoundUtil.playSoundEvent3d(soundIndex, SoundCategory.SFX, finalX, finalY, finalZ, 1.0f, 1.0f, _ -> true, triggerContext.getStore());
-          });
+          pushPos.set(x, y, z);
+          wasAnyPushed = true;
         }
       }
+    }
+
+    if (wasAnyPushed) {
+      int soundIndex = SoundEvent.getAssetMap().getIndex(PUSH_CRATE_SFX);
+      world.execute(() -> {
+        SoundUtil.playSoundEvent3d(soundIndex, SoundCategory.SFX, pushPos.x(), pushPos.y(), pushPos.z(), 1.0f, 1.0f, _ -> true, triggerContext.getStore());
+      });
     }
 
     if (sokobanGrid.isWinCondition()) {
