@@ -5,8 +5,13 @@ import com.hypixel.hytale.builtin.triggervolumes.effect.TriggerEffect;
 import com.hypixel.hytale.builtin.triggervolumes.effect.builtin.ModifyTagsEffect;
 import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
+import com.hypixel.hytale.math.vector.Rotation3f;
+import com.hypixel.hytale.math.vector.Rotation3fc;
 import com.hypixel.hytale.math.vector.Vector3iUtil;
+import com.hypixel.hytale.protocol.SoundCategory;
+import com.hypixel.hytale.server.core.asset.type.soundevent.config.SoundEvent;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
+import com.hypixel.hytale.server.core.universe.world.SoundUtil;
 import io.github.hytalejams.lastdragon.LastDragon;
 import io.github.hytalejams.lastdragon.sokoban.SokobanGrid;
 import org.joml.Vector2i;
@@ -19,6 +24,7 @@ public class PushCrate extends TriggerEffect {
       .builder(PushCrate.class, PushCrate::new, TriggerEffect.BASE_CODEC)
       .append(new KeyedCodec<>("ModifyEffect", ModifyTagsEffect.CODEC), (self, value) -> self.effect = value, self -> self.effect).add()
       .build();
+  private static final String PUSH_CRATE_SFX = "SFX_Push_Crate";
 
   private ModifyTagsEffect effect;
 
@@ -84,10 +90,21 @@ public class PushCrate extends TriggerEffect {
               y,
               z + (pushDirection.z * sokobanGrid.getCellWidth()), oldBlockType.getId());
           world.setBlock(x, y, z, "Empty");
+
+          int soundIndex = SoundEvent.getAssetMap().getIndex(PUSH_CRATE_SFX);
+          int finalX = x;
+          int finalY = y;
+          int finalZ = z;
+          world.execute(() -> {
+            SoundUtil.playSoundEvent3d(soundIndex, SoundCategory.SFX, finalX, finalY, finalZ, 1.0f, 1.0f, _ -> true, triggerContext.getStore());
+          });
         }
       }
     }
 
-    if (sokobanGrid.isWinCondition()) effect.execute(triggerContext);
+    if (sokobanGrid.isWinCondition()) {
+      effect.execute(triggerContext);
+      // TODO: Play sound?
+    }
   }
 }
