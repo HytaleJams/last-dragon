@@ -1,12 +1,15 @@
 package io.github.hytalejams.lastdragon;
 
+import com.hypixel.hytale.builtin.instances.InstancesPlugin;
 import com.hypixel.hytale.builtin.triggervolumes.effect.TriggerCondition;
 import com.hypixel.hytale.builtin.triggervolumes.effect.TriggerEffect;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.ResourceType;
 import com.hypixel.hytale.logger.HytaleLogger;
+import com.hypixel.hytale.math.vector.Transform;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
+import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import io.github.hytalejams.lastdragon.component.LastTriggerVolumePosition;
@@ -18,6 +21,7 @@ import io.github.hytalejams.lastdragon.trigger.PushCrate;
 import io.github.hytalejams.lastdragon.trigger.SetCamera;
 
 import javax.annotation.Nonnull;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * This class serves as the entrypoint for your plugin. Use the setup method to register into game registries or add
@@ -105,5 +109,9 @@ public class LastDragon extends JavaPlugin {
 
     public SokobanGrid getDefaultGrid() {
       return initialGrid.clone();
+    }
+
+    public CompletableFuture<World> getLastDragonInstance(World current) {
+      return InstancesPlugin.get().spawnInstance("LastDragon", current, new Transform());
     }
 }

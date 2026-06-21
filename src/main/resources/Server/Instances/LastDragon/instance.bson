@@ -1,0 +1,46 @@
+{
+  "RequiredPlugins": {},
+  "ChunkStorage": {
+    "Type": "Hytale"
+  },
+  "GameMode": "Adventure",
+  "IsPvpEnabled": false,
+  "IsSpawningNPC": false,
+  "GameTime": "0001-01-01T07:00:00Z",
+  "GameplayConfig": "LastDragon",
+  "IsCompassUpdating": true,
+  "IsTicking": true,
+  "IsFallDamageEnabled": false,
+  "IsUnloadingChunks": false,
+  "IsSavingChunks": false,
+  "IsGameTimePaused": true,
+  "IsObjectiveMarkersEnabled": true,
+  "IsAllNPCFrozen": false,
+  "IsSavingPlayers": false,
+  "DeleteOnRemove": true,
+  "WorldGen": {
+    "Type": "HytaleGenerator",
+    "WorldStructure": "Default_Void"
+  },
+  "SpawnProvider": {
+    "Id": "Global",
+    "SpawnPoint": {
+      "X": -1669.226318359375,
+      "Y": 198.0,
+      "Z": -348.779052734375,
+      "Pitch": -2.0939841270446777,
+      "Yaw": 3.846412420272827,
+      "Roll": 0.0
+    }
+  },
+  "IsSpawnMarkersEnabled": false,
+  "DeleteOnRemove": true,
+  "Instance": {
+    "RemovalConditions": [
+      {
+        "Type": "WorldEmpty"
+      }
+    ]
+  },
+  "Version": 2
+}
