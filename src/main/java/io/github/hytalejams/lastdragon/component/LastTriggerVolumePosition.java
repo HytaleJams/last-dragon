@@ -14,7 +14,7 @@ import java.util.Map;
 public class LastTriggerVolumePosition implements Component<EntityStore> {
   public static final BuilderCodec<LastTriggerVolumePosition> CODEC =
       BuilderCodec.builder(LastTriggerVolumePosition.class, LastTriggerVolumePosition::new)
-          .append(new KeyedCodec<>("Positions", new MapCodec<>(Vector3dUtil.CODEC, HashMap::new)), (self, value) -> self.positions = value, self -> self.positions).add()
+          .append(new KeyedCodec<>("Positions", new MapCodec<>(Vector3dUtil.CODEC, HashMap::new, false)), (self, value) -> self.positions = value, self -> self.positions).add()
           .build();
 
   public Map<String, Vector3d> positions;
