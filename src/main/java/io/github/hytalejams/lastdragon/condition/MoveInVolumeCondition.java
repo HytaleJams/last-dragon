@@ -39,9 +39,8 @@ public class MoveInVolumeCondition extends TriggerCondition {
     var isInside = entry.getShape().contains(entry.getPosition(), transform.getPosition());
     if (!isInside) return clearPositionForTV(context);
 
-    var positions = store.getComponent(entity,
+    var positions = store.ensureAndGetComponent(entity,
         LastDragon.getInstance().getLastTriggerVolumePositionComponentType());
-    if (positions == null) return false;
 
     var oldPosition = positions.positions.get(entry.getId());
     if (oldPosition == null) {
