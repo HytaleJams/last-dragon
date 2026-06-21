@@ -1,0 +1,64 @@
+{
+  "TranslationProperties": {
+    "Name": "server.items.Dragon_Egg.name"
+  },
+  "Categories": [
+    "Blocks.Deco"
+  ],
+  "ItemLevel": 1,
+  "Interactions": {
+    "Primary": "Block_Primary",
+    "Secondary": "Block_Secondary"
+  },
+  "BlockType": {
+    "DrawType": "Model",
+    "CustomModel": "Blocks/Egg/DragonEgg.blockymodel",
+    "CustomModelTexture": [
+      {
+        "Texture": "Blocks/Egg/DragonEgg.png",
+        "Weight": 1
+      }
+    ],
+    "Flags": {},
+    "Gathering": {
+      "Breaking": {
+        "GatherType": "SoftBlocks"
+      }
+    },
+    "BlockParticleSetId": "Dust",
+    "BlockSoundSetId": "Bone",
+    "PhysicalMaterialId": "Stone",
+    "VariantRotation": "NESW",
+    "Material": "Solid",
+    "Opacity": "Semitransparent",
+    "ParticleColor": "#e2a664",
+    "RandomRotation": "YawStep1",
+    "TextureComputedColor": "#BA773C"
+  },
+  "ResourceTypes": [
+    {
+      "Id": "Bone"
+    }
+  ],
+  "PlayerAnimationsId": "Item",
+  "IconProperties": {
+    "Scale": 0.58823,
+    "Rotation": [
+      0,
+      316.7,
+      339.2
+    ],
+    "Translation": [
+      -5,
+      -14.1
+    ]
+  },
+  "Tags": {
+    "Type": [
+      "Deco"
+    ]
+  },
+  "$Comment": " ",
+  "Icon": "Icons/ItemsGenerated/Deco_Hive.png",
+  "ItemSoundSetId": "ISS_Blocks_Wood"
+}
