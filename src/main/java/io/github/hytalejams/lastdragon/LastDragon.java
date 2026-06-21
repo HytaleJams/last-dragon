@@ -12,6 +12,7 @@ import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import io.github.hytalejams.lastdragon.command.LastDragonCommand;
 import io.github.hytalejams.lastdragon.component.LastTriggerVolumePosition;
 import io.github.hytalejams.lastdragon.condition.MoveInVolumeCondition;
 import io.github.hytalejams.lastdragon.trigger.ResetLastTriggerVolumePosition;
@@ -92,6 +93,8 @@ public class LastDragon extends JavaPlugin {
 
       lastTriggerVolumePositionComponentType = getEntityStoreRegistry()
           .registerComponent(LastTriggerVolumePosition.class, "LastTriggerVolumePosition", LastTriggerVolumePosition.CODEC);
+
+      getCommandRegistry().registerCommand(new LastDragonCommand());
     }
 
     @Override
@@ -113,5 +116,9 @@ public class LastDragon extends JavaPlugin {
 
     public CompletableFuture<World> getLastDragonInstance(World current) {
       return InstancesPlugin.get().spawnInstance("LastDragon", current, new Transform());
+    }
+
+    public boolean isLastDragonInstance(World test) {
+      return test.getWorldConfig().getGameplayConfig().equals("LastDragon");
     }
 }
