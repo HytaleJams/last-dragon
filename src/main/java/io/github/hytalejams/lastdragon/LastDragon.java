@@ -1,11 +1,17 @@
 package io.github.hytalejams.lastdragon;
 
+import com.hypixel.hytale.builtin.triggervolumes.effect.TriggerCondition;
 import com.hypixel.hytale.builtin.triggervolumes.effect.TriggerEffect;
+import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.ResourceType;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import io.github.hytalejams.lastdragon.component.LastTriggerVolumePosition;
+import io.github.hytalejams.lastdragon.condition.MoveInVolumeCondition;
+import io.github.hytalejams.lastdragon.trigger.ResetLastTriggerVolumePosition;
 import io.github.hytalejams.lastdragon.trigger.ResetSokoban;
 import io.github.hytalejams.lastdragon.sokoban.SokobanGrid;
 import io.github.hytalejams.lastdragon.trigger.PushCrate;
@@ -23,6 +29,7 @@ public class LastDragon extends JavaPlugin {
     private static LastDragon instance;
 
     private ResourceType<ChunkStore, SokobanGrid> sokobanGridResourceType;
+    private ComponentType<EntityStore, LastTriggerVolumePosition> lastTriggerVolumePositionComponentType;
 
     private final SokobanGrid initialGrid;
 
@@ -69,11 +76,18 @@ public class LastDragon extends JavaPlugin {
 
       getCodecRegistry(TriggerEffect.CODEC)
           .register("ResetSokoban", ResetSokoban.class, ResetSokoban.CODEC)
+          .register("ResetLastTriggerVolumePosition", ResetLastTriggerVolumePosition.class, ResetLastTriggerVolumePosition.CODEC)
           .register("SetCamera", SetCamera.class, SetCamera.CODEC)
           .register("PushCrate", PushCrate.class, PushCrate.CODEC);
 
+      getCodecRegistry(TriggerCondition.CODEC)
+          .register("MoveInVolume", MoveInVolumeCondition.class, MoveInVolumeCondition.CODEC);
+
       sokobanGridResourceType = getChunkStoreRegistry()
           .registerResource(SokobanGrid.class, "SokobanGrid", SokobanGrid.CODEC);
+
+      lastTriggerVolumePositionComponentType = getEntityStoreRegistry()
+          .registerComponent(LastTriggerVolumePosition.class, "LastTriggerVolumePosition", LastTriggerVolumePosition.CODEC);
     }
 
     @Override
@@ -83,6 +97,10 @@ public class LastDragon extends JavaPlugin {
 
     public ResourceType<ChunkStore, SokobanGrid> getSokobanGridResourceType() {
       return sokobanGridResourceType;
+    }
+
+    public ComponentType<EntityStore, LastTriggerVolumePosition> getLastTriggerVolumePositionComponentType() {
+      return lastTriggerVolumePositionComponentType;
     }
 
     public SokobanGrid getDefaultGrid() {

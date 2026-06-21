@@ -5,8 +5,6 @@ import com.hypixel.hytale.builtin.triggervolumes.effect.TriggerEffect;
 import com.hypixel.hytale.builtin.triggervolumes.effect.builtin.ModifyTagsEffect;
 import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
-import com.hypixel.hytale.math.vector.Rotation3f;
-import com.hypixel.hytale.math.vector.Rotation3fc;
 import com.hypixel.hytale.math.vector.Vector3iUtil;
 import com.hypixel.hytale.protocol.SoundCategory;
 import com.hypixel.hytale.server.core.asset.type.soundevent.config.SoundEvent;
@@ -58,7 +56,6 @@ public class PushCrate extends TriggerEffect {
     var gridZ = ((int)Math.floor(relative.z)) / sokobanGrid.getCellWidth();
 
     var xMag = Math.abs(playerDistanceFromExactCenter.x);
-    var yMag = Math.abs(playerDistanceFromExactCenter.y);
     var zMag = Math.abs(playerDistanceFromExactCenter.z);
 
     // avoid people moving the crates from above
@@ -100,9 +97,9 @@ public class PushCrate extends TriggerEffect {
 
     if (wasAnyPushed) {
       int soundIndex = SoundEvent.getAssetMap().getIndex(PUSH_CRATE_SFX);
-      world.execute(() -> {
-        SoundUtil.playSoundEvent3d(soundIndex, SoundCategory.SFX, pushPos.x(), pushPos.y(), pushPos.z(), 1.0f, 1.0f, _ -> true, triggerContext.getStore());
-      });
+      world.execute(() -> SoundUtil.playSoundEvent3d(soundIndex, SoundCategory.SFX,
+          pushPos.x(), pushPos.y(), pushPos.z(),
+          1.0f, 1.0f, _ -> true, triggerContext.getStore()));
     }
 
     if (sokobanGrid.isWinCondition()) {
