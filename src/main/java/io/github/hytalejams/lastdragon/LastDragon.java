@@ -3,10 +3,14 @@ package io.github.hytalejams.lastdragon;
 import com.hypixel.hytale.builtin.instances.InstancesPlugin;
 import com.hypixel.hytale.builtin.triggervolumes.effect.TriggerCondition;
 import com.hypixel.hytale.builtin.triggervolumes.effect.TriggerEffect;
+import com.hypixel.hytale.codec.Codec;
+import com.hypixel.hytale.codec.builder.BuilderCodec;
+import com.hypixel.hytale.codec.lookup.BuilderCodecMapCodec;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.ResourceType;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Transform;
+import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.world.World;
@@ -14,7 +18,11 @@ import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import io.github.hytalejams.lastdragon.command.LastDragonCommand;
 import io.github.hytalejams.lastdragon.component.LastTriggerVolumePosition;
+import io.github.hytalejams.lastdragon.component.OldInventory;
 import io.github.hytalejams.lastdragon.condition.MoveInVolumeCondition;
+import io.github.hytalejams.lastdragon.system.InitializeOldInventorySystem;
+import io.github.hytalejams.lastdragon.system.PreserveGameModeSystem;
+import io.github.hytalejams.lastdragon.system.PreserveInventorySystem;
 import io.github.hytalejams.lastdragon.trigger.ResetLastTriggerVolumePosition;
 import io.github.hytalejams.lastdragon.trigger.ResetSokoban;
 import io.github.hytalejams.lastdragon.sokoban.SokobanGrid;
@@ -22,6 +30,8 @@ import io.github.hytalejams.lastdragon.trigger.PushCrate;
 import io.github.hytalejams.lastdragon.trigger.SetCamera;
 
 import javax.annotation.Nonnull;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -35,6 +45,8 @@ public class LastDragon extends JavaPlugin {
 
     private ResourceType<ChunkStore, SokobanGrid> sokobanGridResourceType;
     private ComponentType<EntityStore, LastTriggerVolumePosition> lastTriggerVolumePositionComponentType;
+    private ComponentType<EntityStore, OldInventory> oldInventoryComponentType;
+    private final BuilderCodecMapCodec<InventoryComponent> inventoryComponentCodec;
 
     private final SokobanGrid initialGrid;
 
@@ -71,6 +83,7 @@ public class LastDragon extends JavaPlugin {
           setOrigin(-1796, 186, -370);
           setCellWidth(2);
         }};
+        this.inventoryComponentCodec = new BuilderCodecMapCodec<>();
     }
 
     @Override
@@ -78,6 +91,48 @@ public class LastDragon extends JavaPlugin {
         instance = this;
         LOGGER.atInfo().log("Setting up plugin " + this.getName() + " version " +
             this.getManifest().getVersion().toString());
+
+        var inventoryCodecRegistry = getCodecRegistry(inventoryComponentCodec);
+        for (var inventoryComponentType : InventoryComponent.EVERYTHING) {
+          var type = inventoryComponentType.getTypeClass();
+
+          Field field;
+          try {
+            field = type.getDeclaredField("CODEC");
+          } catch (NoSuchFieldException e) {
+            LOGGER.atWarning().log("Missing CODEC field for InventoryComponent subclass "
+                + inventoryComponentType.getTypeClass());
+            continue;
+          }
+
+          int modifiers = field.getModifiers();
+          if (!Modifier.isStatic(modifiers) || !Modifier.isPublic(modifiers)) {
+            LOGGER.atWarning().log("CODEC field of InventoryComponent subclass "
+                + inventoryComponentType.getTypeClass()
+                + " has improper modifiers");
+            continue;
+          }
+
+          Object value;
+          try {
+            value = field.get(null);
+          } catch (IllegalAccessException e) {
+            LOGGER.atWarning().log("CODEC field of InventoryComponent subclass "
+                + inventoryComponentType.getTypeClass()
+                + " was null");
+            continue;
+          }
+
+          if (value == null || !BuilderCodec.class.isAssignableFrom(value.getClass())) {
+            LOGGER.atWarning().log("CODEC field of InventoryComponent subclass "
+                + inventoryComponentType.getTypeClass()
+                + " was not assignable to BuilderCodec");
+            continue;
+          }
+
+          //noinspection unchecked,rawtypes
+          inventoryCodecRegistry.register(type.getSimpleName(), (Class) type, (BuilderCodec) value);
+        }
 
       getCodecRegistry(TriggerEffect.CODEC)
           .register("ResetSokoban", ResetSokoban.class, ResetSokoban.CODEC)
@@ -94,7 +149,14 @@ public class LastDragon extends JavaPlugin {
       lastTriggerVolumePositionComponentType = getEntityStoreRegistry()
           .registerComponent(LastTriggerVolumePosition.class, "LastTriggerVolumePosition", LastTriggerVolumePosition.CODEC);
 
+      oldInventoryComponentType = getEntityStoreRegistry()
+          .registerComponent(OldInventory.class, "OldInventory", OldInventory.CODEC);
+
       getCommandRegistry().registerCommand(new LastDragonCommand());
+
+      getEntityStoreRegistry().registerSystem(new PreserveInventorySystem());
+      getEntityStoreRegistry().registerSystem(new InitializeOldInventorySystem());
+      getEntityStoreRegistry().registerSystem(new PreserveGameModeSystem());
     }
 
     @Override
@@ -110,12 +172,20 @@ public class LastDragon extends JavaPlugin {
       return lastTriggerVolumePositionComponentType;
     }
 
+    public ComponentType<EntityStore, OldInventory> getOldInventoryComponentType() {
+      return oldInventoryComponentType;
+    }
+
     public SokobanGrid getDefaultGrid() {
       return initialGrid.clone();
     }
 
     public CompletableFuture<World> getLastDragonInstance(World current) {
       return InstancesPlugin.get().spawnInstance("LastDragon", current, new Transform());
+    }
+
+    public Codec<InventoryComponent> getInventoryComponentCodec() {
+      return inventoryComponentCodec;
     }
 
     public boolean isLastDragonInstance(World test) {

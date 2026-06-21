@@ -26,7 +26,7 @@ public class LastDragonCommand extends CommandBase {
     var world = store.getExternalData().getWorld();
     var plugin = LastDragon.getInstance();
 
-    if (!plugin.isLastDragonInstance(world)) {
+    if (plugin.isLastDragonInstance(world)) {
       commandContext.sendMessage(Message.raw("You are already in the Last Dragon minigame!"));
       return;
     }
