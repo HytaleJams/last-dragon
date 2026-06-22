@@ -3099,7 +3099,7 @@
           "Interval": 0.0,
           "Delay": 0.0,
           "SoundEvent": "SFX_Geyser",
-          "Volume": 0.6499999761581421,
+          "Volume": 0.25,
           "Pitch": 1.0
         }
       ],
