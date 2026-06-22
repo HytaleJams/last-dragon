@@ -2,7 +2,7 @@
     "Group": "HytaleJams",
     "Name": "TheLastDragon",
     "Version": "1.0.0",
-    "Description": "An example plugin for Hytale modding.",
+    "Description": "A puzzle-based adventure map made using trigger volumes",
     "Authors": [
         {
             "Name": "Cobrinthine",
