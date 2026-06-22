@@ -17,6 +17,10 @@ public class ExitInstance extends TriggerEffect {
 
   @Override
   public void execute(@Nonnull TriggerContext triggerContext) {
-    InstancesPlugin.exitInstance(triggerContext.getEntityRef(), triggerContext.getStore());
+    try {
+      InstancesPlugin.exitInstance(triggerContext.getEntityRef(), triggerContext.getStore());
+    } catch (IllegalArgumentException _) {
+      // player is not in an instance
+    }
   }
 }
