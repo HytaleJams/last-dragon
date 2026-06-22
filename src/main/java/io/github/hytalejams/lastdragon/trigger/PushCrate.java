@@ -7,8 +7,10 @@ import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.math.vector.Vector3iUtil;
 import com.hypixel.hytale.protocol.SoundCategory;
+import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.asset.type.soundevent.config.SoundEvent;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.SoundUtil;
 import io.github.hytalejams.lastdragon.LastDragon;
 import io.github.hytalejams.lastdragon.sokoban.SokobanGrid;
@@ -114,6 +116,10 @@ public class PushCrate extends TriggerEffect {
       world.execute(() -> SoundUtil.playSoundEvent3d(idx, SoundCategory.SFX,
           pushPos.x(), pushPos.y(), pushPos.z(),
           1.0f, 1.0f, _ -> true, triggerContext.getStore()));
+
+      var player = store.getComponent(entity, PlayerRef.getComponentType());
+      if (player != null) player.sendMessage(Message.raw("As you push the last box into place, you hear a satisfying " +
+          "click and the grinding of a large mechanism. The door at the end of the cavern appears to be open now!"));
     }
   }
 }

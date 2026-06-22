@@ -174,21 +174,21 @@
     },
     "traps_loop1": {
       "Position": {
-        "X": -1856.5,
+        "X": -1853.5,
         "Y": 191.5,
-        "Z": -337.0
+        "Z": -337.5
       },
       "Shape": {
         "Type": "Box",
         "Min": {
           "X": -0.5,
           "Y": -2.5,
-          "Z": -2.0
+          "Z": -1.5
         },
         "Max": {
           "X": 0.5,
           "Y": 2.5,
-          "Z": 2.0
+          "Z": 1.5
         }
       },
       "Conditions": [
@@ -207,6 +207,19 @@
           "Delay": 0.0,
           "Operation": "Set",
           "TagKey": "KZ_State",
+          "TagValue": "Activated",
+          "MatchKey": "Type",
+          "MatchValue": "killzone",
+          "Radius": 50.0,
+          "Center": "Volume"
+        },
+        {
+          "Type": "ModifyTags",
+          "Event": "ENTER",
+          "Interval": 0.0,
+          "Delay": 0.0,
+          "Operation": "Set",
+          "TagKey": "KZ_TrapsOn",
           "TagValue": "Activated",
           "MatchKey": "Type",
           "MatchValue": "killzone",
@@ -528,7 +541,7 @@
         {
           "Type": "CooldownCondition",
           "Event": "ENTER",
-          "Cooldown": 36000.0,
+          "Cooldown": 5.0,
           "Scope": "WHOLE_VOLUME"
         }
       ],
@@ -2959,6 +2972,19 @@
           "Center": "Volume"
         },
         {
+          "Type": "ModifyTags",
+          "Event": "TAG_ADDED",
+          "Interval": 0.0,
+          "Delay": 0.0,
+          "Operation": "Set",
+          "TagKey": "KS_State",
+          "TagValue": "Activated",
+          "MatchKey": "Type",
+          "MatchValue": "killzone_sounds",
+          "Radius": 20.0,
+          "Center": "Volume"
+        },
+        {
           "Type": "DisableVolume",
           "Event": "TAG_REMOVED",
           "Interval": 0.0,
@@ -3516,7 +3542,7 @@
       "TargetTypes": [
         "Player"
       ],
-      "Enabled": true,
+      "Enabled": false,
       "KeepLoaded": false
     },
     "redlight1": {
@@ -4054,15 +4080,6 @@
           "MatchValue": "red_controller",
           "Radius": 50.0,
           "Center": "Volume"
-        },
-        {
-          "Type": "PlaySound",
-          "Event": "TAG_ADDED",
-          "Interval": 0.0,
-          "Delay": 0.0,
-          "SoundEvent": "SFX_Deployable_Totem_Heal_Despawn",
-          "Volume": 1.0,
-          "Pitch": 1.0
         }
       ],
       "RejectionEffects": [
@@ -4106,15 +4123,6 @@
           "MatchValue": "green_controller",
           "Radius": 50.0,
           "Center": "Volume"
-        },
-        {
-          "Type": "PlaySound",
-          "Event": "TAG_ADDED",
-          "Interval": 0.0,
-          "Delay": 0.0,
-          "SoundEvent": "SFX_Eye_Void_Attack_Summon",
-          "Volume": 1.0,
-          "Pitch": 5.0
         }
       ],
       "TargetTypes": [
@@ -4216,6 +4224,46 @@
           "SoundEvent": "SFX_Wind_Gust",
           "Volume": 1.0,
           "Pitch": 1.0
+        }
+      ],
+      "TargetTypes": [
+        "Player"
+      ],
+      "Enabled": true,
+      "KeepLoaded": false
+    },
+    "mute_redlight": {
+      "Position": {
+        "X": -1861.0,
+        "Y": 191.5,
+        "Z": -407.75
+      },
+      "Shape": {
+        "Type": "Box",
+        "Min": {
+          "X": -2.0,
+          "Y": -2.5,
+          "Z": -0.25
+        },
+        "Max": {
+          "X": 2.0,
+          "Y": 2.5,
+          "Z": 0.25
+        }
+      },
+      "Effects": [
+        {
+          "Type": "ModifyTags",
+          "Event": "ENTER",
+          "Interval": 0.0,
+          "Delay": 0.0,
+          "Operation": "Remove",
+          "TagKey": "Semaphore_Muted",
+          "TagValue": "Unmuted",
+          "MatchKey": "Type",
+          "MatchValue": "semaphore_sounds",
+          "Radius": 50.0,
+          "Center": "Volume"
         }
       ],
       "TargetTypes": [
@@ -4620,6 +4668,71 @@
       "Enabled": true,
       "KeepLoaded": false
     },
+    "semaphore_sounds_green": {
+      "Position": {
+        "X": -1857.0,
+        "Y": 191.5,
+        "Z": -427.0
+      },
+      "Shape": {
+        "Type": "Box",
+        "Min": {
+          "X": -0.5,
+          "Y": -0.5,
+          "Z": -0.5
+        },
+        "Max": {
+          "X": 0.5,
+          "Y": 0.5,
+          "Z": 0.5
+        }
+      },
+      "Conditions": [
+        {
+          "Type": "TagCondition",
+          "Event": "TAG_ADDED",
+          "Source": "Event",
+          "TagKey": "Semaphore_State",
+          "TagValue": "red",
+          "MatchKey": "",
+          "MatchValue": "",
+          "Radius": 50.0,
+          "Center": "Volume"
+        },
+        {
+          "Type": "TagCondition",
+          "Event": "TAG_ADDED",
+          "Source": "Self",
+          "TagKey": "Semaphore_Muted",
+          "TagValue": "Unmuted",
+          "MatchKey": "",
+          "MatchValue": "",
+          "Radius": 50.0,
+          "Center": "Volume"
+        }
+      ],
+      "Effects": [
+        {
+          "Type": "PlaySound",
+          "Event": "TAG_ADDED",
+          "Interval": 0.0,
+          "Delay": 0.0,
+          "SoundEvent": "SFX_Eye_Void_Attack_Summon",
+          "Volume": 1.0,
+          "Pitch": 5.0
+        }
+      ],
+      "TargetTypes": [
+        "Player"
+      ],
+      "Enabled": true,
+      "KeepLoaded": false,
+      "Tags": {
+        "Type": "semaphore_sounds",
+        "Semaphore_State": "green",
+        "Semaphore_Muted": "Unmuted"
+      }
+    },
     "killzone_controller3": {
       "Position": {
         "X": -1840.0,
@@ -4759,15 +4872,6 @@
           "Center": "Volume"
         },
         {
-          "Type": "PlaySound",
-          "Event": "TAG_ADDED",
-          "Interval": 0.0,
-          "Delay": 0.0,
-          "SoundEvent": "SFX_Spear_Throw",
-          "Volume": 1.0,
-          "Pitch": 1.5
-        },
-        {
           "Type": "ModifyTags",
           "Event": "TAG_ADDED",
           "Interval": 0.0,
@@ -4779,15 +4883,6 @@
           "MatchValue": "killzone",
           "Radius": 2.0,
           "Center": "Volume"
-        },
-        {
-          "Type": "PlaySound",
-          "Event": "TAG_ADDED",
-          "Interval": 0.0,
-          "Delay": 5.0,
-          "SoundEvent": "SFX_Spear_Projectile_Impact",
-          "Volume": 1.0,
-          "Pitch": 1.0
         }
       ],
       "TargetTypes": [
@@ -4854,6 +4949,59 @@
       "Tags": {
         "Type": "killzone_controller"
       }
+    },
+    "mute_sounds_spikes": {
+      "Position": {
+        "X": -1855.5,
+        "Y": 191.5,
+        "Z": -337.0
+      },
+      "Shape": {
+        "Type": "Box",
+        "Min": {
+          "X": -0.5,
+          "Y": -2.5,
+          "Z": -2.0
+        },
+        "Max": {
+          "X": 0.5,
+          "Y": 2.5,
+          "Z": 2.0
+        }
+      },
+      "Effects": [
+        {
+          "Type": "ModifyTags",
+          "Event": "ENTER",
+          "Interval": 0.0,
+          "Delay": 0.0,
+          "Operation": "Set",
+          "TagKey": "KS_Muted",
+          "TagValue": "Muted",
+          "MatchKey": "Type",
+          "MatchValue": "killzone_sounds",
+          "Radius": 50.0,
+          "Center": "Volume"
+        },
+        {
+          "Type": "ModifyTags",
+          "Event": "ENTER",
+          "Interval": 0.0,
+          "Delay": 0.0,
+          "Operation": "Set",
+          "TagKey": "KS_State",
+          "TagValue": "Activated",
+          "MatchKey": "Type",
+          "MatchValue": "killzone_sounds",
+          "Radius": 50.0,
+          "Center": "Volume"
+        }
+      ],
+      "TargetTypes": [
+        "Player"
+      ],
+      "Enabled": true,
+      "KeepLoaded": false
     },
     "tv_lxkxqf": {
       "Position": {
@@ -4957,12 +5105,12 @@
         "Min": {
           "X": -2.0,
           "Y": -2.5,
-          "Z": -1.0
+          "Z": -0.25
         },
         "Max": {
           "X": 2.0,
           "Y": 2.5,
-          "Z": 1.0
+          "Z": 0.25
         }
       },
       "Conditions": [
@@ -5080,6 +5228,71 @@
         "ID": "door"
       }
     },
+    "semaphore_sounds_red": {
+      "Position": {
+        "X": -1858.25,
+        "Y": 191.5,
+        "Z": -427.0
+      },
+      "Shape": {
+        "Type": "Box",
+        "Min": {
+          "X": -0.25,
+          "Y": -0.5,
+          "Z": -0.5
+        },
+        "Max": {
+          "X": 0.25,
+          "Y": 0.5,
+          "Z": 0.5
+        }
+      },
+      "Conditions": [
+        {
+          "Type": "TagCondition",
+          "Event": "TAG_ADDED",
+          "Source": "Event",
+          "TagKey": "Semaphore_State",
+          "TagValue": "green",
+          "MatchKey": "",
+          "MatchValue": "",
+          "Radius": 50.0,
+          "Center": "Volume"
+        },
+        {
+          "Type": "TagCondition",
+          "Event": "TAG_ADDED",
+          "Source": "Self",
+          "TagKey": "Semaphore_Muted",
+          "TagValue": "Unmuted",
+          "MatchKey": "",
+          "MatchValue": "",
+          "Radius": 50.0,
+          "Center": "Volume"
+        }
+      ],
+      "Effects": [
+        {
+          "Type": "PlaySound",
+          "Event": "TAG_ADDED",
+          "Interval": 0.0,
+          "Delay": 0.0,
+          "SoundEvent": "SFX_Deployable_Totem_Heal_Despawn",
+          "Volume": 1.0,
+          "Pitch": 1.0
+        }
+      ],
+      "TargetTypes": [
+        "Player"
+      ],
+      "Enabled": true,
+      "KeepLoaded": false,
+      "Tags": {
+        "Type": "semaphore_sounds",
+        "Semaphore_State": "green",
+        "Semaphore_Muted": "Unmuted"
+      }
+    },
     "dispenser_zombie": {
       "Position": {
         "X": -1833.0,
@@ -5145,19 +5358,19 @@
     "tv_room1_pit_start": {
       "Position": {
         "X": -1737.0,
-        "Y": 163.0,
+        "Y": 164.5,
         "Z": -364.5
       },
       "Shape": {
         "Type": "Box",
         "Min": {
           "X": -30.0,
-          "Y": -1.0,
+          "Y": -2.5,
           "Z": -25.5
         },
         "Max": {
           "X": 30.0,
-          "Y": 1.0,
+          "Y": 2.5,
           "Z": 25.5
         }
       },
@@ -5249,7 +5462,20 @@
           "Type": "ModifyTags",
           "Event": "TAG_ADDED",
           "Interval": 0.0,
-          "Delay": 2.0,
+          "Delay": 1.5,
+          "Operation": "Set",
+          "TagKey": "Semaphore_State",
+          "TagValue": "green",
+          "MatchKey": "Type",
+          "MatchValue": "semaphore_sounds",
+          "Radius": 50.0,
+          "Center": "Volume"
+        },
+        {
+          "Type": "ModifyTags",
+          "Event": "TAG_ADDED",
+          "Interval": 0.0,
+          "Delay": 1.5,
           "Operation": "Set",
           "TagKey": "CanMove",
           "TagValue": "true",
@@ -5296,6 +5522,53 @@
           "SoundEvent": "SFX_Wind_Loop",
           "Volume": 0.699999988079071,
           "Pitch": 1.0
+        }
+      ],
+      "TargetTypes": [
+        "Player"
+      ],
+      "Enabled": true,
+      "KeepLoaded": false
+    },
+    "sokoban_hint": {
+      "Position": {
+        "X": -1819.5,
+        "Y": 190.0,
+        "Z": -369.0
+      },
+      "Shape": {
+        "Type": "Box",
+        "Min": {
+          "X": -1.5,
+          "Y": -1.0,
+          "Z": -2.0
+        },
+        "Max": {
+          "X": 1.5,
+          "Y": 1.0,
+          "Z": 2.0
+        }
+      },
+      "Conditions": [
+        {
+          "Type": "TagCondition",
+          "Event": "ENTER",
+          "Source": "Radius",
+          "TagKey": "State",
+          "TagValue": "Opened",
+          "MatchKey": "",
+          "MatchValue": "",
+          "Radius": 10.0,
+          "Center": "Volume"
+        }
+      ],
+      "RejectionEffects": [
+        {
+          "Type": "SendMessage",
+          "Event": "ENTER",
+          "Interval": 0.0,
+          "Delay": 0.0,
+          "Message": "The door ahead of you is firmly shut. You have a feeling that it would be opened if the boxes behind you were arranged correctly..."
         }
       ],
       "TargetTypes": [
@@ -5484,7 +5757,7 @@
           "Event": "TICK",
           "Interval": 0.0,
           "Delay": 0.0,
-          "Message": "After you solve the puzzle, you suddenly get the sense that the mushrooms around you are a lot more corporeal. You should approach the shrine again."
+          "Message": "After you solve the puzzle, you suddenly get the sense that the mushrooms around you are a lot more corporeal. You feel like you should approach the statue now."
         },
         {
           "Type": "DisableVolume",
@@ -5508,19 +5781,19 @@
     },
     "brambles": {
       "Position": {
-        "X": -1888.5,
+        "X": -1885.5,
         "Y": 191.0,
         "Z": -369.0
       },
       "Shape": {
         "Type": "Box",
         "Min": {
-          "X": -1.5,
+          "X": -4.5,
           "Y": -3.0,
           "Z": -2.0
         },
         "Max": {
-          "X": 1.5,
+          "X": 4.5,
           "Y": 3.0,
           "Z": 2.0
         }
@@ -5751,7 +6024,7 @@
           "Event": "ENTER",
           "Interval": 0.0,
           "Delay": 0.0,
-          "Message": "With your exit route collapsed behind you, there's only one way left: forward, into the cave once inhabited by a mad wizard."
+          "Message": "With your exit route collapsed behind you, there's only one way left: forward, into the cave once inhabited by a mad wizard. Rumors have it that she was in possession of the last dragon's egg."
         }
       ],
       "TargetTypes": [
@@ -5836,6 +6109,13 @@
           "Interval": 0.0,
           "Delay": 0.0,
           "Message": "The door at the back is closed shut! Maybe this board ahead of you has something to do with it... (Step on the marble pedestal to reset the board.)"
+        },
+        {
+          "Type": "SendMessage",
+          "Event": "ENTER",
+          "Interval": 0.0,
+          "Delay": 2.5,
+          "Message": "The boxes look easy to move... maybe you can push them by walking into them?"
         }
       ],
       "TargetTypes": [
@@ -6475,7 +6755,7 @@
           "Event": "ENTER",
           "Interval": 0.0,
           "Delay": 0.0,
-          "Message": "When you try to pick them up, all the mushroom phase through your hand. Perhaps there are some other means of gathering them."
+          "Message": "When you try to pick them up, all the mushrooms phase through your hand. Perhaps there are some other means of gathering them."
         }
       ],
       "TargetTypes": [
@@ -6720,7 +7000,7 @@
           "Event": "ENTER",
           "Interval": 0.0,
           "Delay": 7.0,
-          "Message": "(P.S. There's a small extra in this room. You can also run the command /instance exit to leave when you're ready.)"
+          "Message": "(P.S. There's a small extra in this room.)"
         }
       ],
       "TargetTypes": [
@@ -6870,6 +7150,19 @@
           "TagValue": "red",
           "MatchKey": "Type",
           "MatchValue": "semaphore",
+          "Radius": 50.0,
+          "Center": "Volume"
+        },
+        {
+          "Type": "ModifyTags",
+          "Event": "TAG_ADDED",
+          "Interval": 0.0,
+          "Delay": 1.5,
+          "Operation": "Set",
+          "TagKey": "Semaphore_State",
+          "TagValue": "red",
+          "MatchKey": "Type",
+          "MatchValue": "semaphore_sounds",
           "Radius": 50.0,
           "Center": "Volume"
         },
@@ -7817,6 +8110,82 @@
       "Enabled": true,
       "KeepLoaded": false
     },
+    "killzone_sounds": {
+      "Position": {
+        "X": -1841.5,
+        "Y": 189.5,
+        "Z": -333.5
+      },
+      "Shape": {
+        "Type": "Box",
+        "Min": {
+          "X": -0.5,
+          "Y": -0.5,
+          "Z": -0.5
+        },
+        "Max": {
+          "X": 0.5,
+          "Y": 0.5,
+          "Z": 0.5
+        }
+      },
+      "Conditions": [
+        {
+          "Type": "TagCondition",
+          "Event": "TAG_ADDED",
+          "Source": "Self",
+          "TagKey": "KS_Muted",
+          "TagValue": "Muted",
+          "MatchKey": "",
+          "MatchValue": "",
+          "Radius": 50.0,
+          "Center": "Volume"
+        }
+      ],
+      "RejectionEffects": [
+        {
+          "Type": "ModifyTags",
+          "Event": "TAG_ADDED",
+          "Interval": 0.0,
+          "Delay": 0.0,
+          "Operation": "Remove",
+          "TagKey": "KS_State",
+          "TagValue": "Activated",
+          "MatchKey": "Type",
+          "MatchValue": "killzone_sounds",
+          "Radius": 50.0,
+          "Center": "Volume"
+        },
+        {
+          "Type": "PlaySound",
+          "Event": "TAG_ADDED",
+          "Interval": 0.0,
+          "Delay": 5.0,
+          "SoundEvent": "SFX_Spear_Throw",
+          "Volume": 1.0,
+          "Pitch": 1.5
+        },
+        {
+          "Type": "PlaySound",
+          "Event": "TAG_ADDED",
+          "Interval": 0.0,
+          "Delay": 0.0,
+          "SoundEvent": "SFX_Spear_Projectile_Impact",
+          "Volume": 1.0,
+          "Pitch": 1.0
+        }
+      ],
+      "TargetTypes": [
+        "Player"
+      ],
+      "Enabled": true,
+      "KeepLoaded": false,
+      "Tags": {
+        "Type": "killzone_sounds",
+        "KS_Muted": "Muted",
+        "KS_State": "Activated"
+      }
+    },
     "0_0": {
       "Position": {
         "X": -1795.0,
@@ -7944,6 +8313,46 @@
             "Radius": 75.0,
             "Center": "Volume"
           }
+        }
+      ],
+      "TargetTypes": [
+        "Player"
+      ],
+      "Enabled": true,
+      "KeepLoaded": false
+    },
+    "unmute_redlight": {
+      "Position": {
+        "X": -1861.0,
+        "Y": 191.5,
+        "Z": -409.0
+      },
+      "Shape": {
+        "Type": "Box",
+        "Min": {
+          "X": -2.0,
+          "Y": -2.5,
+          "Z": -0.25
+        },
+        "Max": {
+          "X": 2.0,
+          "Y": 2.5,
+          "Z": 0.25
+        }
+      },
+      "Effects": [
+        {
+          "Type": "ModifyTags",
+          "Event": "ENTER",
+          "Interval": 0.0,
+          "Delay": 0.0,
+          "Operation": "Set",
+          "TagKey": "Semaphore_Muted",
+          "TagValue": "Unmuted",
+          "MatchKey": "Type",
+          "MatchValue": "semaphore_sounds",
+          "Radius": 50.0,
+          "Center": "Volume"
         }
       ],
       "TargetTypes": [
@@ -8503,6 +8912,19 @@
           "Center": "Volume"
         },
         {
+          "Type": "ModifyTags",
+          "Event": "ENTER",
+          "Interval": 0.0,
+          "Delay": 0.0,
+          "Operation": "Remove",
+          "TagKey": "Simon_State",
+          "TagValue": "good_node",
+          "MatchKey": "Type2",
+          "MatchValue": "simon_node",
+          "Radius": 50.0,
+          "Center": "Volume"
+        },
+        {
           "Type": "EnableVolume",
           "Event": "ENTER",
           "Interval": 0.0,
@@ -8539,8 +8961,7 @@
       "KeepLoaded": false,
       "Tags": {
         "Type2": "simon_node",
-        "Type": "simon_green",
-        "Simon_State": "good_node"
+        "Type": "simon_green"
       }
     },
     "simon_says1": {
@@ -8673,6 +9094,19 @@
           "TagValue": "",
           "MatchKey": "Type",
           "MatchValue": "simon_node_controller",
+          "Radius": 50.0,
+          "Center": "Volume"
+        },
+        {
+          "Type": "ModifyTags",
+          "Event": "ENTER",
+          "Interval": 0.0,
+          "Delay": 0.0,
+          "Operation": "Remove",
+          "TagKey": "Simon_State",
+          "TagValue": "good_node",
+          "MatchKey": "Type2",
+          "MatchValue": "simon_node",
           "Radius": 50.0,
           "Center": "Volume"
         },
@@ -8850,6 +9284,19 @@
           "Center": "Volume"
         },
         {
+          "Type": "ModifyTags",
+          "Event": "ENTER",
+          "Interval": 0.0,
+          "Delay": 0.0,
+          "Operation": "Set",
+          "TagKey": "Simon_State",
+          "TagValue": "good_node",
+          "MatchKey": "Type2",
+          "MatchValue": "simon_node",
+          "Radius": 50.0,
+          "Center": "Volume"
+        },
+        {
           "Type": "EnableVolume",
           "Event": "ENTER",
           "Interval": 0.0,
@@ -9019,6 +9466,19 @@
           "TagValue": "",
           "MatchKey": "Type",
           "MatchValue": "simon_node_controller",
+          "Radius": 50.0,
+          "Center": "Volume"
+        },
+        {
+          "Type": "ModifyTags",
+          "Event": "ENTER",
+          "Interval": 0.0,
+          "Delay": 0.0,
+          "Operation": "Remove",
+          "TagKey": "Simon_State",
+          "TagValue": "good_node",
+          "MatchKey": "Type2",
+          "MatchValue": "simon_node",
           "Radius": 50.0,
           "Center": "Volume"
         },
@@ -9540,6 +10000,59 @@
           "Interval": 0.0,
           "Delay": 0.0,
           "Message": "There's something off about the floor in here..."
+        }
+      ],
+      "TargetTypes": [
+        "Player"
+      ],
+      "Enabled": true,
+      "KeepLoaded": false
+    },
+    "unmute_sounds_spikes": {
+      "Position": {
+        "X": -1849.5,
+        "Y": 191.5,
+        "Z": -337.0
+      },
+      "Shape": {
+        "Type": "Box",
+        "Min": {
+          "X": -0.5,
+          "Y": -2.5,
+          "Z": -2.0
+        },
+        "Max": {
+          "X": 0.5,
+          "Y": 2.5,
+          "Z": 2.0
+        }
+      },
+      "Effects": [
+        {
+          "Type": "ModifyTags",
+          "Event": "ENTER",
+          "Interval": 0.0,
+          "Delay": 0.0,
+          "Operation": "Remove",
+          "TagKey": "KS_Muted",
+          "TagValue": "Muted",
+          "MatchKey": "Type",
+          "MatchValue": "killzone_sounds",
+          "Radius": 50.0,
+          "Center": "Volume"
+        },
+        {
+          "Type": "ModifyTags",
+          "Event": "ENTER",
+          "Interval": 0.0,
+          "Delay": 0.0,
+          "Operation": "Remove",
+          "TagKey": "KS_State",
+          "TagValue": "Activated",
+          "MatchKey": "Type",
+          "MatchValue": "killzone_sounds",
+          "Radius": 50.0,
+          "Center": "Volume"
         }
       ],
       "TargetTypes": [
