@@ -2,6 +2,15 @@
 
 This repository hosts our team's submission for the June 2026 HytaleModding mod jam.
 
+The Last Dragon is largely a map, but you'll also find:
+
+- extensions for trigger volume effect and conditions, for features not found within vanilla trigger volumes (Release 0.5.6)
+  - state management for one puzzle made back when presets were corrupting clients
+
+- a few assets to enhance the experience, either made by ourselves or permitted by their licenses
+
+- utilities related to instancing, to make everyone's lives easier
+
 # Team Members
 @Cobrinthine
 @Drakonkinst
