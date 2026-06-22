@@ -1,0 +1,115 @@
+{
+  "Cells": [
+    {
+      "X": 2,
+      "Z": 1,
+      "State": "Crate"
+    },
+    {
+      "X": 3,
+      "Z": 2,
+      "State": "Empty"
+    },
+    {
+      "X": 4,
+      "Z": 3,
+      "State": "Empty"
+    },
+    {
+      "X": 0,
+      "Z": 0,
+      "State": "GoalEmpty"
+    },
+    {
+      "X": 1,
+      "Z": 1,
+      "State": "GoalEmpty"
+    },
+    {
+      "X": 2,
+      "Z": 2,
+      "State": "Crate"
+    },
+    {
+      "X": 4,
+      "Z": 4,
+      "State": "Empty"
+    },
+    {
+      "X": 0,
+      "Z": 1,
+      "State": "Empty"
+    },
+    {
+      "X": 2,
+      "Z": 3,
+      "State": "Empty"
+    },
+    {
+      "X": 3,
+      "Z": 4,
+      "State": "Empty"
+    },
+    {
+      "X": 0,
+      "Z": 2,
+      "State": "Empty"
+    },
+    {
+      "X": 1,
+      "Z": 3,
+      "State": "Empty"
+    },
+    {
+      "X": 2,
+      "Z": 4,
+      "State": "Empty"
+    },
+    {
+      "X": 0,
+      "Z": 3,
+      "State": "Empty"
+    },
+    {
+      "X": 1,
+      "Z": 4,
+      "State": "Empty"
+    },
+    {
+      "X": 0,
+      "Z": 4,
+      "State": "GoalEmpty"
+    },
+    {
+      "X": 4,
+      "Z": 0,
+      "State": "Empty"
+    },
+    {
+      "X": 3,
+      "Z": 0,
+      "State": "Empty"
+    },
+    {
+      "X": 4,
+      "Z": 1,
+      "State": "Empty"
+    },
+    {
+      "X": 3,
+      "Z": 1,
+      "State": "Crate"
+    },
+    {
+      "X": 4,
+      "Z": 2,
+      "State": "Empty"
+    }
+  ],
+  "Origin": {
+    "X": -1796,
+    "Y": 186,
+    "Z": -370
+  },
+  "CellWidth": 2
+}
