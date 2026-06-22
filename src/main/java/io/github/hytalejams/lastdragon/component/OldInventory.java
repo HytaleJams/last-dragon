@@ -13,6 +13,9 @@ import io.github.hytalejams.lastdragon.LastDragon;
 
 import javax.annotation.Nullable;
 
+/**
+ * Used to preserve inventory and gamemode when transporting out of a Last Dragon instance.
+ */
 public class OldInventory implements Component<EntityStore> {
   public static final BuilderCodec<OldInventory> CODEC = BuilderCodec
       .builder(OldInventory.class, OldInventory::new)

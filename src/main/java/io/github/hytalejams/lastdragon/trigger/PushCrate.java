@@ -17,12 +17,17 @@ import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
 
+/**
+ * Custom trigger effect added to support the sokoban minigame.
+ * Responsible for moving crates within the game board state and in-game.
+ */
 public class PushCrate extends TriggerEffect {
   public static final BuilderCodec<PushCrate> CODEC = BuilderCodec
       .builder(PushCrate.class, PushCrate::new, TriggerEffect.BASE_CODEC)
       .append(new KeyedCodec<>("ModifyEffect", ModifyTagsEffect.CODEC), (self, value) -> self.effect = value, self -> self.effect).add()
       .build();
   private static final String PUSH_CRATE_SFX = "SFX_Push_Crate";
+  private static final String WIN_SFX = "SFX_Divine_Respawn";
 
   private ModifyTagsEffect effect;
 
@@ -104,7 +109,11 @@ public class PushCrate extends TriggerEffect {
 
     if (sokobanGrid.isWinCondition()) {
       effect.execute(triggerContext);
-      // TODO: Play sound?
+
+      var idx = SoundEvent.getAssetMap().getIndex(WIN_SFX);
+      world.execute(() -> SoundUtil.playSoundEvent3d(idx, SoundCategory.SFX,
+          pushPos.x(), pushPos.y(), pushPos.z(),
+          1.0f, 1.0f, _ -> true, triggerContext.getStore()));
     }
   }
 }

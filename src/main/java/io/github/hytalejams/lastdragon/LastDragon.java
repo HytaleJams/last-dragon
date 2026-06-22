@@ -23,11 +23,8 @@ import io.github.hytalejams.lastdragon.condition.MoveInVolumeCondition;
 import io.github.hytalejams.lastdragon.system.InitializeOldInventorySystem;
 import io.github.hytalejams.lastdragon.system.PreserveGameModeSystem;
 import io.github.hytalejams.lastdragon.system.PreserveInventorySystem;
-import io.github.hytalejams.lastdragon.trigger.ResetLastTriggerVolumePosition;
-import io.github.hytalejams.lastdragon.trigger.ResetSokoban;
+import io.github.hytalejams.lastdragon.trigger.*;
 import io.github.hytalejams.lastdragon.sokoban.SokobanGrid;
-import io.github.hytalejams.lastdragon.trigger.PushCrate;
-import io.github.hytalejams.lastdragon.trigger.SetCamera;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
@@ -93,6 +90,8 @@ public class LastDragon extends JavaPlugin {
             this.getManifest().getVersion().toString());
 
         var inventoryCodecRegistry = getCodecRegistry(inventoryComponentCodec);
+
+        // the nonsense below is required to get around a bug with inventory component serialization
         for (var inventoryComponentType : InventoryComponent.EVERYTHING) {
           var type = inventoryComponentType.getTypeClass();
 
@@ -136,6 +135,7 @@ public class LastDragon extends JavaPlugin {
 
       getCodecRegistry(TriggerEffect.CODEC)
           .register("ResetSokoban", ResetSokoban.class, ResetSokoban.CODEC)
+          .register("ExitInstance", ExitInstance.class, ExitInstance.CODEC)
           .register("ResetLastTriggerVolumePosition", ResetLastTriggerVolumePosition.class, ResetLastTriggerVolumePosition.CODEC)
           .register("SetCamera", SetCamera.class, SetCamera.CODEC)
           .register("PushCrate", PushCrate.class, PushCrate.CODEC);

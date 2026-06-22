@@ -9,6 +9,10 @@ import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
 
+/**
+ * Custom trigger condition added for the red light minigame. Detects when a player
+ * moves within the bounds of a trigger volume.
+ */
 public class MoveInVolumeCondition extends TriggerCondition {
   public static final BuilderCodec<MoveInVolumeCondition> CODEC = BuilderCodec
       .builder(MoveInVolumeCondition.class, MoveInVolumeCondition::new, TriggerCondition.BASE_CODEC)
