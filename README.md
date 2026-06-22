@@ -1,15 +1,27 @@
 # The Last Dragon
 
-This repository hosts our team's submission for the June 2026 HytaleModding mod jam.
+This repository hosts our team's submission for the June 2026 HytaleModding mod jam. Meant for the release branch.
 
 The Last Dragon is largely a map, but you'll also find:
 
 - extensions for trigger volume effect and conditions, for features not found within vanilla trigger volumes (Release 0.5.6)
-  - state management for one puzzle made back when presets were corrupting clients
 
-- a few assets to enhance the experience, either made by ourselves or permitted by their licenses
+- a few assets to enhance the experience, either made by ourselves or sourced from third parties where the license is appropriate
 
 - utilities related to instancing, to make everyone's lives easier
+
+
+In the interest of transparency, as the Puzzle Experience theme is restricted to trigger volumes, we use Java for the following (besides instancing logic):
+
+ - the Sokoban puzzle, to simplify complex state management and certain kinds of interactions, while still integrating with trigger volumes through effects,
+
+ - the 'Red Light Green Light' puzzle, to check a player's historical positions which the vanilla trigger conditions cannot do,
+
+ - to set a player's camera (unused in final submission - changing a player's camera inconsistently resulted in a client-side NPE),
+
+ - a trigger effect that removes the player from the instance, used only at the end of the map.
+
+Everything else was made with trigger volumes as-is, for release version 0.5.6.
 
 # Team Members
 @Cobrinthine
