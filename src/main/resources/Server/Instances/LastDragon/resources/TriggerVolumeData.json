@@ -3602,6 +3602,13 @@
           "Event": "TAG_ADDED",
           "Interval": 0.0,
           "Delay": 0.0
+        },
+        {
+          "Type": "RemoveItem",
+          "Event": "TICK",
+          "Interval": 0.0,
+          "Delay": 0.0,
+          "ItemId": "Ore_Adamantite"
         }
       ],
       "TargetTypes": [
