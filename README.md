@@ -19,6 +19,8 @@ In the interest of transparency, as the Puzzle Experience theme is restricted to
 
  - to set a player's camera (unused in final submission - changing a player's camera inconsistently resulted in a client-side NPE),
 
+ - to reimplement the item condition as an effect that removes items, due to the condition causing issues in one specific circumstance,
+
  - a trigger effect that removes the player from the instance, used only at the end of the map.
 
 Everything else was made with trigger volumes as-is, for release version 0.5.6.
