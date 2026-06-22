@@ -3,6 +3,7 @@ package io.github.hytalejams.lastdragon.command;
 import com.hypixel.hytale.builtin.instances.InstancesPlugin;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
+import com.hypixel.hytale.server.core.command.system.CommandSender;
 import com.hypixel.hytale.server.core.command.system.basecommands.CommandBase;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import io.github.hytalejams.lastdragon.LastDragon;
@@ -41,5 +42,10 @@ public class LastDragonCommand extends CommandBase {
       InstancesPlugin.teleportPlayerToLoadingInstance(ref, store,
           plugin.getLastDragonInstance(world), returnPoint);
     });
+  }
+
+  @Override
+  public boolean hasPermission(@Nonnull CommandSender sender) {
+    return true;
   }
 }
