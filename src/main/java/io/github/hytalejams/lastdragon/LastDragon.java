@@ -136,6 +136,7 @@ public class LastDragon extends JavaPlugin {
 
       getCodecRegistry(TriggerEffect.CODEC)
           .register("ResetSokoban", ResetSokoban.class, ResetSokoban.CODEC)
+          .register("RemoveItem", RemoveItem.class, RemoveItem.CODEC)
           .register("ExitInstance", ExitInstance.class, ExitInstance.CODEC)
           .register("ResetLastTriggerVolumePosition", ResetLastTriggerVolumePosition.class, ResetLastTriggerVolumePosition.CODEC)
           .register("SetCamera", SetCamera.class, SetCamera.CODEC)
