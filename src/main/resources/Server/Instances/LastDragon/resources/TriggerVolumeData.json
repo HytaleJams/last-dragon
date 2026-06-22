@@ -6720,7 +6720,7 @@
           "Event": "ENTER",
           "Interval": 0.0,
           "Delay": 7.0,
-          "Message": "(P.S. There's a small extra in this room.)"
+          "Message": "(P.S. There's a small extra in this room. You can also run the command /instance exit to leave when you're ready.)"
         }
       ],
       "TargetTypes": [
