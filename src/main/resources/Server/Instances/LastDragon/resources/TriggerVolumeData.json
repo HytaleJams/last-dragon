@@ -3542,7 +3542,7 @@
       "TargetTypes": [
         "Player"
       ],
-      "Enabled": false,
+      "Enabled": true,
       "KeepLoaded": false
     },
     "redlight1": {
@@ -4729,8 +4729,8 @@
       "KeepLoaded": false,
       "Tags": {
         "Type": "semaphore_sounds",
-        "Semaphore_State": "green",
-        "Semaphore_Muted": "Unmuted"
+        "Semaphore_Muted": "Unmuted",
+        "Semaphore_State": "green"
       }
     },
     "killzone_controller3": {
@@ -5289,8 +5289,8 @@
       "KeepLoaded": false,
       "Tags": {
         "Type": "semaphore_sounds",
-        "Semaphore_State": "green",
-        "Semaphore_Muted": "Unmuted"
+        "Semaphore_Muted": "Unmuted",
+        "Semaphore_State": "green"
       }
     },
     "dispenser_zombie": {
@@ -5559,7 +5559,8 @@
           "MatchKey": "",
           "MatchValue": "",
           "Radius": 10.0,
-          "Center": "Volume"
+          "Center": "Volume",
+          "MinimumCount": 1
         }
       ],
       "RejectionEffects": [
