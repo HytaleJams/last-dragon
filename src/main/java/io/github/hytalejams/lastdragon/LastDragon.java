@@ -23,6 +23,7 @@ import io.github.hytalejams.lastdragon.condition.MoveInVolumeCondition;
 import io.github.hytalejams.lastdragon.system.InitializeOldInventorySystem;
 import io.github.hytalejams.lastdragon.system.PreserveGameModeSystem;
 import io.github.hytalejams.lastdragon.system.PreserveInventorySystem;
+import io.github.hytalejams.lastdragon.system.PreventItemDropInLastDragonInstanceSystem;
 import io.github.hytalejams.lastdragon.trigger.*;
 import io.github.hytalejams.lastdragon.sokoban.SokobanGrid;
 
@@ -155,6 +156,7 @@ public class LastDragon extends JavaPlugin {
       getCommandRegistry().registerCommand(new LastDragonCommand());
 
       getEntityStoreRegistry().registerSystem(new PreserveInventorySystem());
+      getEntityStoreRegistry().registerSystem(new PreventItemDropInLastDragonInstanceSystem());
       getEntityStoreRegistry().registerSystem(new InitializeOldInventorySystem());
       getEntityStoreRegistry().registerSystem(new PreserveGameModeSystem());
     }
