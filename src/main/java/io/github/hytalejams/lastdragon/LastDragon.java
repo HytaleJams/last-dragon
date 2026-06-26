@@ -142,6 +142,7 @@ public class LastDragon extends JavaPlugin {
           .register("ExitInstance", ExitInstance.class, ExitInstance.CODEC)
           .register("ResetLastTriggerVolumePosition", ResetLastTriggerVolumePosition.class, ResetLastTriggerVolumePosition.CODEC)
           .register("SetCamera", SetCamera.class, SetCamera.CODEC)
+          .register("RunCommand", RunCommand.class, RunCommand.CODEC)
           .register("PushCrate", PushCrate.class, PushCrate.CODEC);
 
       getCodecRegistry(TriggerCondition.CODEC)
