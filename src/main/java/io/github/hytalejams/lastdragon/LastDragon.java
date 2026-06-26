@@ -20,10 +20,7 @@ import io.github.hytalejams.lastdragon.command.LastDragonCommand;
 import io.github.hytalejams.lastdragon.component.LastTriggerVolumePosition;
 import io.github.hytalejams.lastdragon.component.OldInventory;
 import io.github.hytalejams.lastdragon.condition.MoveInVolumeCondition;
-import io.github.hytalejams.lastdragon.system.InitializeOldInventorySystem;
-import io.github.hytalejams.lastdragon.system.PreserveGameModeSystem;
-import io.github.hytalejams.lastdragon.system.PreserveInventorySystem;
-import io.github.hytalejams.lastdragon.system.PreventItemDropInLastDragonInstanceSystem;
+import io.github.hytalejams.lastdragon.system.*;
 import io.github.hytalejams.lastdragon.trigger.*;
 import io.github.hytalejams.lastdragon.sokoban.SokobanGrid;
 
@@ -31,6 +28,7 @@ import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Level;
 
 /**
  * This class serves as the entrypoint for your plugin. Use the setup method to register into game registries or add
@@ -47,6 +45,9 @@ public class LastDragon extends JavaPlugin {
     private final BuilderCodecMapCodec<InventoryComponent> inventoryComponentCodec;
 
     private final SokobanGrid initialGrid;
+
+    private final Object sync;
+    private CompletableFuture<World> lastDragonInstance;
 
     public static LastDragon getInstance() {
         return instance;
@@ -81,6 +82,7 @@ public class LastDragon extends JavaPlugin {
           setOrigin(-1796, 186, -370);
           setCellWidth(2);
         }};
+        this.sync = new Object();
         this.inventoryComponentCodec = new BuilderCodecMapCodec<>();
     }
 
@@ -160,6 +162,7 @@ public class LastDragon extends JavaPlugin {
       getEntityStoreRegistry().registerSystem(new PreventItemDropInLastDragonInstanceSystem());
       getEntityStoreRegistry().registerSystem(new InitializeOldInventorySystem());
       getEntityStoreRegistry().registerSystem(new PreserveGameModeSystem());
+      getEntityStoreRegistry().registerSystem(new CleanWorldSystem());
     }
 
     @Override
@@ -184,7 +187,18 @@ public class LastDragon extends JavaPlugin {
     }
 
     public CompletableFuture<World> getLastDragonInstance(World current) {
-      return InstancesPlugin.get().spawnInstance("LastDragon", current, new Transform());
+      synchronized (sync) {
+        if (lastDragonInstance == null)
+          lastDragonInstance = InstancesPlugin.get().spawnInstance("LastDragon", current, new Transform());
+        return lastDragonInstance;
+      }
+    }
+
+    public void removeLastDragonInstance() {
+      synchronized (sync) {
+        if (lastDragonInstance != null) LOGGER.at(Level.INFO).log("Cleaning up LastDragon instance...");
+        lastDragonInstance = null;
+      }
     }
 
     public Codec<InventoryComponent> getInventoryComponentCodec() {
