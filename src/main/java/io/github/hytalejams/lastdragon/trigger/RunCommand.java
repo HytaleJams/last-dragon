@@ -33,7 +33,8 @@ public class RunCommand extends TriggerEffect {
     // can't run command as non-player
     if (player == null) return;
 
-    CommandManager.get().handleCommand(player, command).whenComplete((_, err) ->
-        LOGGER.atWarning().log("Failed to run command!\n" + err));
+    CommandManager.get().handleCommand(player, command).whenComplete((_, err) -> {
+      if (err != null) LOGGER.atWarning().log("Failed to run command!\n" + err);
+    });
   }
 }
